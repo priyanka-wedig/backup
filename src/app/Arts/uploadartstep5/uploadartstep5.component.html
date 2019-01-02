@@ -1,0 +1,114 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+            <ul class="progressbar">
+                    <ng-container *ngIf="art_id!='' && art_id!=undefined && art_id!='undefined'">
+                            <li class="active add-anchor"><a href="/upload-art/{{art_id}}"></a></li>
+                    </ng-container>
+                    <ng-container *ngIf="art_id=='' || art_id==undefined || art_id=='undefined'">
+                            <li class="active add-anchor"><a href="/upload-art"></a></li>
+                    </ng-container>
+                    <li class="active add-anchor"><a href="/review-art"></a></li>
+                    <li class="active add-anchor"><a href="/add-art-description"></a></li>
+                    <li class="active add-anchor"><a href="/artwork-details"></a></li>
+                    <li class="active remove-anchor"></li>
+                  </ul>
+        <div class="art-steps">
+            <div class="title">Upload additional media</div>
+          
+            <div class="upload-heading">
+                <div class="u-title">Upload artwork video</div>
+                <div class="u-sub-title">(Supported format MP4, WebM, OGV)</div>
+            </div>
+            
+            <div class="upload-drop ">
+                   <ng-container *ngIf="show_video =='' &&  get_video_url==''">
+                        <input type="file" name="photo"  id="dir-select"  class="hide-input"  ng2FileSelect [uploader]="uploader" (change)="uploader.uploadAll()"/>
+                        <img src="assets/img/play-icon.png" alt="Icon" class="icon">
+                        
+                        <div class="dd-title">Drag & Drop</div>
+                        <a href="javascript:void(0);" class="dd-sub-title">or upload manually</a>
+                 </ng-container>
+                 <ng-container *ngIf="show_video !='' || get_video_url !=''">
+                   <div class="close-icon"><img src="assets/img/cross-icon.png" (click)="remove()"/></div>
+                   <img src="assets/img/pause-icon.png" alt="Icon" class="icon">
+                 </ng-container>
+                 <div class class="loader-main" *ngIf="videoLoader == true">
+                    <div class="loader">Loading...</div>
+                </div>
+            </div>
+           
+            <ng-container *ngIf="show_video !='' && get_video_url ==''">
+               <div>
+                    <a data-fancybox data-type="iframe" [attr.data-src]="show_video" (click)="videoIframe()" href="javascript:;" class="video-link" >Play Video <i class="fa fa-angle-right"></i>
+                        </a>
+                        </div>
+                 </ng-container>
+                  <ng-container *ngIf="get_video_url !=''">
+                 <div>
+                    <a data-fancybox data-type="iframe" [attr.data-src]="get_video_url" (click)="videoIframe()" href="javascript:;" class="video-link" >Play Video  <i class="fa fa-angle-right"></i>
+                        </a>
+                        </div>
+                 </ng-container>
+            <div class="upload-heading">
+                <div class="u-title">Upload artwork audio</div>
+                <div class="u-sub-title">(Supported format MPGA, MP3, WAV, OGG)</div>
+            </div>
+            <div class="upload-audio">
+                    <!-- <input type='file' required (change)="onSelectAudio($event)" class="hide-input"/> -->
+                    <ng-container *ngIf="show_audio =='' &&  get_audio_url=='' ">
+                        <input type="file" name="audio"  id="dir-select1"  class="hide-input"  ng2FileSelect [uploader]="uploaderAudio" (change)="uploaderAudio.uploadAll()"/>
+                    <img src="assets/img/audio-icon.png" alt="Icon" class="icon">
+                    <div class="dd-title">Drag & Drop</div>
+                    <a href="javascript:void(0);" class="dd-sub-title">or upload manually</a>
+                 </ng-container>
+                   <ng-container *ngIf="show_audio !=''  || get_audio_url !=''">
+                   <div class="close-icon"><img src="assets/img/cross-icon.png" (click)="remove_audio()"/></div>
+                   <img src="assets/img/pause-icon.png" alt="Icon" class="icon">
+                 </ng-container>
+                   <div class class="loader-main" *ngIf="audioLoader == true">
+                    <div class="loader">Loading...</div>
+                </div>
+            </div>
+             <ng-container *ngIf="show_audio !='' && get_audio_url ==''">
+                 <div>
+                    <a data-fancybox data-type="iframe" [attr.data-src]="show_audio" (click)="audioframe()" href="javascript:;" class="video-link" >Play Audio <i class="fa fa-angle-right"></i>
+                        </a>
+                        </div>
+                 </ng-container>
+                     <ng-container *ngIf="get_audio_url !=''">
+                 <div>
+                    <a data-fancybox data-type="iframe" [attr.data-src]="get_audio_url" (click)="audioalreadySavedIframe()" href="javascript:;" class="video-link" >Play Audio  <i class="fa fa-angle-right"></i>
+                        </a>
+                        </div>
+                 </ng-container>
+           
+            <ul class="switcher-list">
+                <li>
+                    <div class="left-text">Add to Private Gallery</div>
+                    <label class="switch">
+                        <input type="checkbox" (click)="private_gallery();" [(ngModel)]='private_gallary' value='{{checkedstatus}}'>
+                        <span class="slider round"></span>
+                    </label>
+                </li>
+                <li>
+                    <div class="left-text">Share on social media</div>
+                    <label class="switch">
+                        <input type="checkbox">
+                        <span class="slider round"></span>
+                    </label>
+                </li>
+            </ul>
+            <div class="bottom-row">
+                <!-- <a href="javascript:void(0);" data-toggle="modal" data-target="#postModal" class="blue-button">POST ARTWORK</a> -->
+                <div  [ngClass]="{'pos-rel no-hover': uploadArtWorkLoader == true}">
+                        <div class="btn-loader2" *ngIf="uploadArtWorkLoader == true">Loading...</div>
+                        <button type="submit"  class="btn blue-btn" (click)="uploadArtWork()" >Publish </button>
+                    </div>
+                <p>Having problems with the web app? <a href="contact" target="_blank">Contact Us</a></p>
+            </div>
+        
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

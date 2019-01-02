@@ -1,0 +1,135 @@
+@media (max-width: 1550px) { 
+	
+}
+@media (max-width: 1366px) { 
+	
+}
+@media (max-width: 1280px) {
+	
+}
+@media (max-width: 1199px) {
+	.terms-condition-page .page-title{
+		font-size: 36px;
+	}
+	.notification-page .page-title{
+		font-size: 36px;
+	}
+	.help-faq-page .custom-search-input, .help-faq-page .faq-accordion{
+		margin-top: 20px;
+	}
+	.book-event-section .book-event-heading{
+		font-size: 36px;
+		margin-bottom: 30px;
+	}
+	.book-event-section{
+		padding: 50px 0;
+	}
+}
+@media (max-width: 1024px) {
+	
+}
+@media (max-width: 991px) {
+	.terms-condition-page .page-title{
+		font-size: 24px;
+	}
+	.terms-condition-page .page-title-sub{
+		font-size: 14px;
+	}
+	.p-box{
+		font-size: 14px;
+	}
+	.h-heading{
+		font-size: 18px;
+	}
+	.terms-condition-page{
+		padding: 40px 0;
+	}
+	.notification-page .page-title-sub{
+		font-size: 14px;
+	}
+	.notification-page .page-title{
+		font-size: 24px;
+	}
+	.help-faq-page .faq-accordion .panel-title > a{
+		padding: 10px 20px;
+		font-size: 14px;
+	}
+	.help-faq-page .faq-accordion .accordion-text{
+		font-size: 14px;
+		margin-bottom: 15px;
+	}
+	.book-event-section .book-event-heading{
+		font-size: 24px;
+		margin-bottom: 20px;
+	}
+	.book-event-section .full-calendar-section .fc-basic-view .fc-day-number{
+		padding-top: 5px;
+		padding-right: 5px;
+		font-size: 12px;
+	}
+	.book-event-section .full-calendar-section .fc-day-grid-event{
+		margin-top: 0px;
+		margin-right: 2px;
+		padding: 5px;
+	}
+	.book-event-section .full-calendar-section .fc-day-grid-event .fc-title{
+		font-size: 10px;
+		font-weight: 500;
+	}
+}
+@media (max-width: 767px) {
+	.left-tabs .nav-tabs{
+		width: 100%;
+		text-align: left;
+		padding: 0 5px 15px;
+	}
+	.left-tabs .nav-tabs li{
+		display: inline-block;
+		width: auto;
+	}
+	.left-tabs .nav-tabs li a{
+		padding: 10px 15px;
+	}
+	.left-tabs .nav-tabs li a br{
+		display: none;
+	}
+	.left-tabs .tab-content{
+		margin-left: 0px;
+		border-left: 0px;
+		float: left;
+		width: 100%;
+	}
+	.notification-page .notification-list{
+		margin-top: 20px;
+	}
+	.notification-page{
+		padding: 40px 0;
+	}
+	.notification-page .notification-list li .notification-table{
+		padding: 15px 0;
+	}
+	.book-event-section{
+		padding: 30px 0;
+	}
+	.book-event-section .full-calendar-section .fc-toolbar .fc-right .fc-button-group button, .book-event-section .full-calendar-section .fc-toolbar .fc-left .fc-today-button{
+		font-size: 13px;
+	}
+	.book-event-section .full-calendar-section .fc-toolbar .fc-left .fc-button-group button{
+		font-size: 15px;
+	}
+	.book-event-section .full-calendar-section .fc-toolbar .fc-center h2{
+		font-size: 16px;
+	}
+	.art-circle-section .art-circle-inner{
+		padding: 10px 10px 0px;
+	}
+}
+@media (max-width: 600px) {
+	
+}
+@media (max-width: 540px) {
+	
+}
+@media (max-width: 480px) {
+	
+}

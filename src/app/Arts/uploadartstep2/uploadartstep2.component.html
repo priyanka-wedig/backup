@@ -1,0 +1,37 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+            <ul class="progressbar">
+                <ng-container *ngIf="art_id!='' && art_id!=undefined && art_id!='undefined'">
+                  
+                        <li class="active add-anchor"><a href="/upload-art/{{art_id}}"></a></li>
+                </ng-container>
+                <ng-container *ngIf="art_id=='' || art_id==undefined || art_id=='undefined'">
+                    
+                        <li class="active add-anchor"><a href="/upload-art"></a></li>
+                </ng-container>
+                    <li class="active remove-anchor"></li>
+                    <li class="remove-anchor"></li>
+                    <li class="remove-anchor"></li>
+                    <li class="remove-anchor"></li>
+                  </ul>
+        <div class="art-steps">
+            <div class="title">Upload your art:</div>
+            <div class="sub-title">{{name}} <div class="right-text">Upload complete!</div></div>
+            <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:100%"></div>
+            </div>
+            <div class="img-box">
+                <span >
+                    <a style="cursor: pointer;" (click)="remove()" class="cross-icon"></a>
+                    <img [src]="image_path" alt="Image">
+                </span>
+            </div>
+            <div class="bottom-row">
+                <a href="add-art-description" class="blue-button no-margin-b">NEXT</a>
+               <p>Having problems with the web app? <a href="contact" target="_blank">Contact Us</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

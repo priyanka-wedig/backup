@@ -1,0 +1,304 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Skeuomo</title>
+  <base href="/">
+
+  <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
+  <meta property="og:title" content="Art 1">
+  <meta property="og:image" content='http://skeuomodev.indyo.com/api/data/pexels-photo-935785.jpeg'>
+  <meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus diam libero, cursus commodo arcu commodo non. Proin a nulla nunc. Nunc vulputate, ipsum eu laoreet tempus, erat dui varius sapien, iaculis maximus tortor orci eget ligula. Etiam in augue eros. Praesent eu orci dapibus, commodo est nec, sodales est. Mauris quam mauris, pharetra eget pellentesque at, vehicula viverra metus. Phasellus tincidunt sem blandit interdum euismod. Sed efficitur commodo nulla nec hendrerit. Quisque sed erat sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.">
+  <meta property="og:url" content="http://skeuomodev.indyo.com/art-details/1">
+  <meta name="twitter:card" content="summary_large_image">
+ <link rel="icon" type="image/x-icon" href="assets/img/title_icon.ico">
+  <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+  <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+  <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+  <script async src="https://static.addtoany.com/menu/page.js"></script>
+ <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-594b5ef010b5b2c3"></script>
+</head>
+<body>
+  <app-root></app-root>
+</body>
+<script>
+  if (global === undefined) {
+    var global = window;
+  }
+</script>
+<script type="text/javascript">
+    
+  $('.featured-slider').owlCarousel({
+      loop:true,
+      nav:false,
+      margin:10,
+      dots:false,
+      autoplay:true,
+      stagePadding:60,
+      autoplayTimeout:3000,
+      autoplayHoverPause:false,
+      responsive:{
+          0:{
+              items:1
+          },
+          600:{
+              items:2
+          },
+          960:{
+              items:2
+          },
+          1200:{
+              items:2
+          }
+      }
+  });
+  $('.slider-atriums').owlCarousel({
+      loop:true,
+      nav:false,
+      dots: true,
+      margin:0,
+      autoplay:true,
+      stagePadding: 180,
+      autoplayTimeout:3000,
+      autoplayHoverPause:false,
+      responsive:{
+          0:{
+              items:1,
+          stagePadding: 60
+          },
+          600:{
+              items:2,
+          stagePadding: 60
+          },
+          768:{
+              items:2,
+          stagePadding: 80
+          },
+          960:{
+              items:3,
+          stagePadding: 120
+          },
+          1281:{
+              items:3,
+          stagePadding: 180
+          }
+      }
+  });
+  $('.slider-skmmob').owlCarousel({
+      loop:true,
+      nav:false,
+      dots: true,
+      margin:5,
+      center:true,
+      /*activeClass:true,*/
+      autoplay:false,
+      stagePadding: 100,
+      autoplayTimeout:3000,
+      autoplayHoverPause:false,
+      responsive:{
+          0:{
+              items:1,
+          stagePadding: 70
+          },
+          600:{
+              items:3,
+          stagePadding: 40
+          },
+          960:{
+              items:3,
+          stagePadding: 170
+          },
+          1281:{
+              items:5,
+          stagePadding: 100
+          }
+      },
+      activeClass:true
+  });
+//   $('.slider-testimonial').owlCarousel({
+//       loop:true,
+//       nav:true,
+//       dots: false,
+//       margin:30,
+//       autoplay:true,
+//       autoplayTimeout:3000,
+//       autoplayHoverPause:false,
+//       responsive:{
+//           0:{
+//               items:1
+//           },
+//           600:{
+//               items:1
+//           },
+//           960:{
+//               items:1
+//           },
+//           1200:{
+//               items:1
+//           }
+//       },
+//       navText: ["", ""]
+//   });
+ /* nb -comment 
+ $(".jq_search").click(function(){
+      $(".jq-search-sec").toggleClass("open");
+  });*/
+  /*$(".search-list a").click(function(){
+      $(".jq-search-sec").removeClass("open");
+  });*/
+    /* nb -comment 
+    $(".jq_card_header").click(function(){
+        $(this).toggleClass("active");
+        $(".jq_collapse").slideToggle("slow");
+    });*/
+   
+//     $("#filter").keyup(function(){
+ 
+//         // Retrieve the input field text and reset the count to zero
+//         var filter = $(this).val(), count = 0;
+  
+ 
+//         // Loop through the comment list
+//         $(".searchTool").each(function(){
+//             // If the list item does not contain the text phrase fade it out
+//             if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+//                 $(this).fadeOut();
+ 
+           
+//             } else {
+//                 $(this).show();
+//                 count++;
+//             }
+//         });
+ 
+//         // // Update the count
+//         // var numberItems = count;
+//         // $("#filter-count").text("Number of Comments = "+count);
+//     });
+//     document.querySelector('#dir-select').onchange = function(e) {
+//   var out = [];
+//   for (var i = 0, f; f = e.target.files[i]; ++i) {
+//     out.push(f.webkitRelativePath);
+//   }
+// //   document.querySelector('output').textContent = out.join('/n');
+// };
+
+
+</script>
+    <script type="text/javascript">
+        // var options = [];
+
+        // // $('.dropdown-menu').click(function(event) {
+        // //     event.stopPropagation();
+        // //     $(event.target).closest('div .button-group.open').find('button').css({background: 'white', color: 'black'})
+        // // })
+
+        // $( '.dropdown-menu a' ).on( 'click', function( event ) {
+        //     //$(event.target).closest('div .button-group.open').find('button').css({background: 'white', color: 'black'})
+        //     var $target = $( event.currentTarget ),
+        //         val = $target.attr( 'data-value' ),
+        //         $inp = $target.find( 'input' ),
+        //         idx;
+
+        //     if ( ( idx = options.indexOf( val ) ) > -1 ) {
+        //         options.splice( idx, 1 );
+        //         setTimeout( function() { $inp.prop( 'checked', false ) }, 0);
+        //     } else {
+        //         options.push( val );
+        //         setTimeout( function() { $inp.prop( 'checked', true ) }, 0);
+        //     }
+        //     $( event.target ).blur();
+        //     return false;
+        // });
+
+
+
+     
+    $("#filter_genre").keyup(function(){
+ 
+        // Retrieve the input field text and reset the count to zero
+        var filter = $(this).val(), count = 0;
+ 
+        // Loop through the comment list
+        $(".searchTools_genre").each(function(){
+ 
+            // If the list item does not contain the text phrase fade it out
+            if ($(this).text().search(new RegExp(filter, "i")) < 0) {
+                $(this).fadeOut();
+ 
+            // Show the list item if the phrase matches and increase the count by 1
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+ 
+        var numberItems_genre = count;
+        if(numberItems_genre==0){
+            $("#filter-count_genre").html("<center>No Record Found</center>");
+        }else{
+            $("#filter-count_genre").html("");
+        }
+    });
+
+    $("#filter_subject").keyup(function(){
+        
+        var filter_subject = $(this).val(), count = 0;
+        $(".searchTools_subject").each(function(){
+            if ($(this).text().search(new RegExp(filter_subject, "i")) < 0) {
+                $(this).fadeOut();
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var numberItems_subject = count;
+        if(numberItems_subject==0){
+            $("#filter-count_subject").html("<center>No Record Found</center>");
+        }else{
+            $("#filter-count_subject").html("");
+        }
+    });
+    $("#filter_medium").keyup(function(){
+        
+        var filter_medium = $(this).val(), count = 0;
+        $(".searchTools_medium").each(function(){
+            if ($(this).text().search(new RegExp(filter_medium, "i")) < 0) {
+                $(this).fadeOut();
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+       
+        var numberItems_medium = count;
+        if(numberItems_medium==0){
+            $("#filter-count_medium").html("<center>No Record Found</center>");
+        }else{
+            $("#filter-count_medium").html("");
+        }
+    });
+    $("#filter_mood").keyup(function(){
+        
+        var filter_mood = $(this).val(), count = 0;
+        $(".searchTools_mood").each(function(){
+            if ($(this).text().search(new RegExp(filter_mood, "i")) < 0) {
+                $(this).fadeOut();
+            } else {
+                $(this).show();
+                count++;
+            }
+        });
+        var numberItems_mood = count;
+        if(numberItems_mood==0){
+            $("#filter-count_mood").html("<center>No Record Found</center>");
+        }else{
+            $("#filter-count_mood").html("");
+        }
+       
+    });
+
+    </script>
+
+</html>

@@ -1,0 +1,101 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+            <ul class="progressbar">
+                    <ng-container *ngIf="art_id!='' && art_id!=undefined && art_id!='undefined'">
+                            <li class="active add-anchor"><a href="/upload-art/{{art_id}}"></a></li>
+                    </ng-container>
+                    <ng-container *ngIf="art_id=='' || art_id==undefined || art_id=='undefined'">
+                            <li class="active add-anchor"><a href="/upload-art"></a></li>
+                    </ng-container>
+                    <li class="active add-anchor"><a href="/review-art"></a></li>
+                    <li class="active add-anchor"><a href="/add-art-description"></a></li>
+                    <li class="active remove-anchor"></li>
+                    <li class="remove-anchor"></li>
+                  </ul>
+        <div class="art-steps">
+     <form [formGroup]="uploadArtWorkform"  (ngSubmit)="uploadArtWork()" novalidate>
+            <div class="title">Enter artwork details</div>
+            <div class="art-dimen">
+                <div class="a-title">ARTWORK DIMENSIONS (W/H/D)</div>
+                <div class="rows">
+                    <ul class="flex-list">
+                        <li class="active">
+                            <div class="text">Height (inches) <sup class="red-star">*</sup></div>
+                            <div class="number"><input required type="text" name="height" class="form-control"   formControlName="height"  >
+                                <p class="error-msg text-danger"  *ngIf="f.height.touched && f.height.invalid">
+                                        <span  *ngIf="f.height.errors?.required">Height is required.</span>
+                                    </p></div>
+                        </li>
+                        <li>
+                            <div class="text">WIDTH (inches) <sup class="red-star">*</sup></div>
+                            <div class="number"><input required type="text" name="width" class="form-control"   formControlName="width"  >
+                                <p class="error-msg text-danger"  *ngIf="f.width.touched && f.width.invalid">
+                                        <span  *ngIf="f.width.errors?.required">Width is required.</span>
+                                    </p></div>
+                        </li>
+                        <li>
+                            <div class="text">Depth (inches)</div>
+                            <div class="number"><input  type="text" name="depth" class="form-control"   formControlName="depth" >
+                                <!-- <p class="error-msg text-danger"  *ngIf="f.depth.touched && f.depth.invalid">
+                                        <span  *ngIf="f.depth.errors?.required">Depth is required.</span>
+                                    </p> -->
+                                    </div>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="art-dimen no-margin-t">
+                <div class="a-title">ARTWORK DETAILS</div>
+                <ul class="select-list">
+                    <li>
+                            <select class="form-control" formControlName="subject" >
+                                    <option value="">Subject <sup class="red-star">*</sup></option>
+                                    <option *ngFor="let subject of SubjectList" [ngValue]="subject.id" >{{subject.subject}}</option>
+                                </select>
+                                <p class="error-msg text-danger" *ngIf="f.subject.touched && f.subject.invalid">
+                                    <span *ngIf="f.subject.errors?.required">Subject is required.</span>
+                                </p>
+                    </li>
+                    <li>
+                            <select class="form-control" formControlName="genre" >
+                                    <option value="">Genre <sup class="red-star">*</sup></option>
+                                    <option  *ngFor="let genre of GenreList" [ngValue]="genre.id">{{genre.genre}}</option>
+                                </select>
+                                <p class="error-msg text-danger" *ngIf="f.genre.touched && f.genre.invalid">
+                                    <span *ngIf="f.genre.errors?.required">Genre is required.</span>
+                                </p>
+                    </li>
+                    <li>
+                      
+                            <select class="form-control" formControlName="mood" >
+                                    <option value="">Mood <sup class="red-star">*</sup></option>
+                                    <option  *ngFor="let mood of MoodList" [ngValue]="mood.id">{{mood.mood}}</option>
+                                </select>
+                                <p class="error-msg text-danger" *ngIf="f.mood.touched && f.mood.invalid">
+                                    <span *ngIf="f.mood.errors?.required">Mood is required.</span>
+                                </p>
+                    </li>
+                    <li>
+                            <select class="form-control" formControlName="medium" >
+                                    <option value="">Medium <sup class="red-star">*</sup></option>
+                                    <option *ngFor="let medium of MediumList" [ngValue]="medium.id" >{{medium.medium}}</option>
+                                </select>
+                                <p class="error-msg text-danger" *ngIf="f.medium.touched && f.medium.invalid">
+                                    <span *ngIf="f.medium.errors?.required">Medium is required.</span>
+                                </p>
+                    </li>
+                </ul>
+            </div>
+            <div class="bottom-row">
+                    <div  [ngClass]="{'pos-rel no-hover': uploadArtWorkLoader == true}">
+                            <div class="btn-loader2" *ngIf="uploadArtWorkLoader == true">Loading...</div>
+                            <button type="submit"  class="btn blue-btn" [disabled]="!uploadArtWorkform.valid" >Next </button>
+                        </div>
+                <p>Having problems with the web app? <a href="contact" target="_blank">Contact Us</a></p>
+            </div>
+            </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

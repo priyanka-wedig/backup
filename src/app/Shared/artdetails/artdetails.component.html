@@ -1,0 +1,305 @@
+<app-header></app-header>
+<section class="art-details-page">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="art-dtl-sec">
+                    <div class="row">
+                        <div class="col-sm-7 col-sm-push-5 art-dtl-right">
+                            <a href="{{art_url}}" data-fancybox="images" [attr.data-srcset]="art_url">
+                                <img [src]="art_url" />
+                            </a>
+                        </div>
+                        <div class="col-sm-5 col-sm-pull-7 art-dtl-left">
+                            <div class="art-dtl-heading">{{title |titlecase}}</div>
+                            <div class="art-dtl-price">${{price}}</div>
+                            <div class="art-dtl-content">
+                                <!-- DRAWING, 2018 <br/>
+                            Total Edition No. 309 <br/> -->
+                                Height:{{height}}" Width:{{width}}" <ng-container *ngIf="depth && depth !=undefined && depth !=null && depth !='undefined'">Depth:{{depth}}"</ng-container>
+                                <!-- {{width}}(W) x {{height}}(H) x {{depth}}(D)inches -->
+                            </div>
+                            <div class="cart-user art-user">
+
+                                <ng-container *ngIf="image !=''">
+                                    <img src="{{image}}">
+                                </ng-container>
+                                <ng-container *ngIf="image==''">
+                                    <img src="assets/img/avatar1.png">
+                                </ng-container>
+                                <a href="artist-profile/{{userId}}"> {{first_name |titlecase}} {{last_name |titlecase}}</a>
+                            </div>
+                            <div class="art-dtl-info"><span>Subject</span>{{subject}}</div>
+                            <div class="art-dtl-info"><span>Mood</span> {{mood}}</div>
+                            <div class="art-dtl-info"><span>Medium</span> {{medium}}</div>
+                            <div class="art-dtl-info"><span>Genre</span> {{genre}}</div>
+                            <!-- <div class="view-count">1351 VIEWS • 14 SHARES</div>
+                                 <div class="wishlist-text"><i class="fa fa-heart-o"></i> Like</div>
+                            -->
+                            <div class="wishlist-text" *ngIf="auth.isLoggedIn();">
+
+                                <ng-container *ngIf="like_data==1">
+                                    <a (click)="onFollow()" style="cursor: pointer;"> <i class="fa fa-heart"></i>{{count}}
+                                        Like</a>
+                                </ng-container>
+                                <ng-container *ngIf="like_data==0">
+                                    <a (click)="onFollow()" style="cursor: pointer;"> <i class="fa fa-heart-o"></i>{{count}}
+                                        Like</a>
+                                </ng-container>
+
+                                <!-- <span class="a2a_kit a2a_kit_size_32 a2a_default_style">
+                                    <a class="a2a_dd" href="https://www.addtoany.com/share"></a> <span>share</span>
+                                   
+                                </span> -->
+                                <a href="" class="share-btn" data-toggle="modal" data-target="#shareapp">
+                                    <i class="fa fa-share-alt"></i> share
+
+                                </a>
+
+                            </div>
+                        </div>
+
+                    </div>
+                    <div class="row">
+                    </div>
+                    <div class="row action-sec">
+                        <div class="col-sm-5">
+                            <ng-container *ngIf="userId!=token_user_id">
+
+                                <a href="javascript:void(0)" class="blue-transparent-btn">Wishlist</a>
+
+                            </ng-container>
+                        </div>
+                        <div class="col-sm-7">
+                            <ul class="action-box art-detail-action-box">
+                                <ng-container *ngIf="userId!=token_user_id">
+                                    <li>
+                                        <a href="javascript:void(0)" class="blue-btn blue-large-btn">BUY IT NOW</a>
+                                    </li>
+                                    <li>
+                                        <a href="javascript:void(0)" class="blue-transparent-btn">CONTACT ARTIST</a>
+                                    </li>
+                                    <li>
+                                        <a href="#artdetailshare" data-toggle="modal" data-target="#artdetailshare"
+                                            class="blue-btn blue-large-btn"><i class="fa fa-ellipsis-h"></i></a>
+                                    </li>
+                                </ng-container>
+                                <ng-container *ngIf="userId==token_user_id">
+                                    <li class="text-right" style="float: right; width: 40%;">
+                                        <a href="upload-art/{{art_id}}" class="blue-btn blue-large-btn">Edit Art</a>
+                                    </li>
+                                </ng-container>
+
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="row description-sec">
+                        <div class="col-sm-12">
+                            <div class="description-heading">Description</div>
+                            <div class="description-text">{{description}}</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+<section class="video-wrap" *ngIf="audio_url!='' || video_url!=''">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="row">
+                    <ng-container *ngIf="audio_url!=''">
+                        <div class="col-sm-6">
+                            <div class="vd-table">
+                                <div class="vd-left">
+                                    <a data-fancybox data-type="iframe" [attr.data-src]="audio_url" href="javascript:;"
+                                        class="video-link"><img src="assets/img/play-button.svg" /></a>
+
+                                </div>
+                                <div class="vd-right">
+                                    <div class="video-heading">Artist’s comment</div>
+                                    <a data-fancybox data-type="iframe" [attr.data-src]="audio_url" href="javascript:;"
+                                        class="video-link">Play Audio <i class="fa fa-angle-right"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="audio_url==''">
+                        <div class="col-sm-12">
+                            <div class="vd-table">
+                                <div class="vd-left">
+
+                                    <div class="vd-thumb">
+                                        <a data-fancybox data-type="iframe" [attr.data-src]="video_url" href="javascript:;">
+                                            <img src="assets/img/video-thumb.jpg" />
+                                            <div class="vd-thumb-icon"><i class="fa fa-play"></i></div>
+                                        </a>
+
+                                    </div>
+
+                                </div>
+                                <div class="vd-right">
+                                    <div class="video-heading">Interview with the author</div>
+                                    <a data-fancybox data-type="iframe" [attr.data-src]="video_url" href="javascript:;"
+                                        class="video-link">Play Video <i class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                    <ng-container *ngIf="video_url!='' && audio_url!=''">
+                        <div class="col-sm-6 border-l">
+                            <div class="vd-table">
+                                <div class="vd-left">
+                                    <div class="vd-thumb">
+                                        <a data-fancybox data-type="iframe" [attr.data-src]="video_url" href="javascript:;">
+                                            <img src="assets/img/video-thumb.jpg" />
+                                            <div class="vd-thumb-icon"> <i class="fa fa-play"></i></div>
+                                        </a>
+                                    </div>
+                                </div>
+                                <div class="vd-right">
+                                    <div class="video-heading">Interview with the author</div>
+                                    <a data-fancybox data-type="iframe" [attr.data-src]="video_url" href="javascript:;"
+                                        class="video-link">Play Video <i class="fa fa-angle-right"></i></a>
+                                </div>
+                            </div>
+                        </div>
+                    </ng-container>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<div class="art-detail-list" *ngIf="artist_length >0">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-10 col-sm-offset-1">
+                <div class="row">
+                    <div class="col-sm-12">
+                        <div class="main-heading">
+                            More from this artist
+                        </div>
+                    </div>
+                </div>
+                <div class="grid category-list">
+                    <div class="grid-item box-hover-animation" *ngFor="let artist_art of artistArt">
+
+                        <a href="art-details/{{artist_art.art_id}}">
+                            <img src="{{artist_art.image_url}}" alt="Image">
+                        </a>
+                        <div class="price">${{artist_art.price}}
+                            <div class="pull-right" *ngIf="auth.isLoggedIn();">
+                                <ng-container *ngIf="artist_art.art_exists=='Yes'">
+                                    <a (click)="onFavourite(artist_art.art_id)" style="cursor: pointer;"> <img style="width:15px !important"
+                                            src="assets/img/blue-valentines-heart.svg" />
+                                    </a>
+                                </ng-container>
+                                <ng-container *ngIf="artist_art.art_exists=='No'">
+                                    <a (click)="onFavourite(artist_art.art_id)" style="cursor: pointer;"> <i class="fa fa-heart-o"></i></a>
+                                </ng-container>
+                            </div>
+                        </div>
+                        <div class="title-heading">{{artist_art.art_title |titlecase}}</div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+<div id="artdetailshare" class="modal follow-list-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <ul class="follow-list-inner">
+
+                <li>
+                    <!-- <a href="javascript:void(0);">Report</a> -->
+                    <a href="#artReport" data-toggle="modal" data-target="#artReport" data-dismiss="modal">Report</a>
+                </li>
+                <li>
+                    <a href="javascript:void(0);" class="cancel-link" data-dismiss="modal">Cancel</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div id="artReport" class="modal follow-list-modal fade" role="dialog">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                Report Type
+            </div>
+            <div class="modal-body">
+                <form [formGroup]="reportForm" (ngSubmit)="report()" novalidate class="custom-form report-modal-form">
+
+                    <div class="rows">
+                        <div class="form-group">
+                            <label>Your Name:</label>
+                            <input required type="text" name="user_name" class="form-control" formControlName="user_name">
+                            <p class="error-msg text-danger" *ngIf="reports_form.user_name.touched && reports_form.user_name.invalid">
+                                <span *ngIf="reports_form.user_name.errors?.required"> Name is required.</span>
+                            </p>
+                        </div>
+                    </div>
+
+
+                    <div class="rows">
+                        <div class="form-group">
+                            <label>Report Type</label>
+                            <select class="form-control" formControlName="report_type">
+                                <option value="">Select Report</option>
+                                <option *ngFor="let report of reportType" [ngValue]="report['id']">{{report['text']}}</option>
+                            </select>
+                            <p class="error-msg text-danger" *ngIf="reports_form.report_type.touched && reports_form.report_type.invalid">
+                                <span *ngIf="reports_form.report_type.errors?.required">Report is required.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div class="rows">
+                        <div class="form-group">
+                            <label>Description:</label>
+                            <textarea required row="5" name="description" class="form-control" formControlName="description"></textarea>
+                            <p class="error-msg text-danger" *ngIf="reports_form.description.touched && reports_form.description.invalid">
+                                <span *ngIf="reports_form.description.errors?.required">Description is required.</span>
+                            </p>
+                        </div>
+                    </div>
+                    <div [ngClass]="{'pos-rel no-hover': reportLoader == true}">
+                        <div class="btn-loader2" *ngIf="reportLoader == true">Loading...</div>
+                        <button type="submit" class="btn blue-btn" [disabled]="!reportForm.valid">Send</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="modal fade" id="shareapp" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
+    <div class="modal-dialog purple-header" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close clickable" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true"></span>
+                </button>
+                <h4 class="modal-title" id="myModalLabel">
+                    Share
+                </h4>
+            </div>
+            <div class="modal-body">
+                <div class="share-social-icons">
+
+                    <div class="addthis_inline_share_toolbox"></div>
+                    <!-- <share-buttons theme="modern-dark" [show]="4" [showCount]="true"></share-buttons> -->
+                    <!-- <share-button button="facebook">Facebook</share-button>
+                    <share-button button="email">Email</share-button> -->
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,35 @@
+    <app-header></app-header>
+<div class="email-verifaction-section">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-12"><!--  col-sm-offset-1 col-lg-8 col-lg-offset-2 -->
+                <div class="comman-heading text-center">
+                   
+                    <ng-container *ngIf="!user_id">
+                            <div class="title verifaction-title">Thank you for registering  as an Artist.</div>
+                            <div class="sub-title"> Please verify your email to get back on track.
+                                </div>
+                    </ng-container>
+                    <ng-container *ngIf="user_id">
+                            <div class="title verifaction-title">Welcome to Skeuomo.</div>
+                            <div class="sub-title"> You can either upload your art or else skip 
+                                </div>
+                        </ng-container>
+                    
+                </div>
+            </div>
+            <ng-container *ngIf="user_id">
+                <div class="rows">
+                <div class="col-sm-3 col-sm-offset-3">
+                        <button class="blue-btn" (click)="continue();">Upload Artork</button> 
+                    </div>
+                    <div class="col-sm-3">
+                        <button class="blue-btn" (click)="skip();" >Skip</button> 
+                    </div>
+                    
+                </div>
+        </ng-container>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

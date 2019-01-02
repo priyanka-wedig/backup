@@ -1,0 +1,40 @@
+<app-header></app-header>
+<div class="signup-artist sell-inner">
+  <div class="container">
+      <div class="main-heading text-center">Upload Your Artwork</div>
+      <div class="upload-art-sec">
+          <div class="row">
+              <!-- <pre>
+                    {{AllArtsData|json}}
+              </pre> -->
+              
+              <div class="col-sm-4" *ngFor="let arts_list of AllArtsData">
+                  <div class="after-upload-box">
+                        <a href="art-details/{{arts_list.art_id}}">
+                      <div class="upload-box-img">
+                            <img [src]='arts_list.image_url' />
+                      </div>
+                      </a>
+                      <div class="content-upload-sec">
+                          <div class="title">{{arts_list.art_title |titlecase}}</div>
+                          <div class="sub-title">{{arts_list.first_name |titlecase}} {{arts_list.last_name |titlecase}}</div>
+                            <div class="sub-title">${{arts_list.price}}</div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-sm-4">
+                  <div class="upload-table-box artupload-more">
+                      <a href="upload-art">
+                          <div class="upload-table">
+                              <div class="upload-table-cell add-more">
+                                  <img src="assets/img/add-more.svg" />
+                              </div>
+                          </div>
+                      </a>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+</div>
+<app-footer></app-footer>

@@ -1,0 +1,117 @@
+<app-header></app-header>
+<div class="artist-profile-section">
+    <div class="top-img">
+        <ng-container *ngIf="backgroundBase64Image !=''">
+            <img src="{{backgroundBase64Image}}" alt="Icon"></ng-container>
+        <ng-container *ngIf="backgroundBase64Image==''">
+            <img src="assets/img/artist-profile-bg.jpg" alt="Image"></ng-container>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="artist-profile-inner">
+                    <div class="edit-user">
+                        <div class="edit-user-table">
+                            <div class="edit-user-cell">
+                                <ng-container *ngIf="base64Image !=''">
+                                    <img src="{{base64Image}}" alt="Icon"></ng-container>
+                                <ng-container *ngIf="base64Image==''">
+                                    <img src="assets/img/photo-camera.png" alt="Icon"></ng-container>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name">{{full_name |titlecase}}</div>
+                    <div class="post">{{cityName}}, {{CountryName}}</div>
+                    <div class="text-link-row">
+                        <a href="javascript:void(0);">{{followersCount}} FOLLOWERS</a>
+                        <a href="javascript:void(0);">{{followingCount}} FOLLOWING</a>
+                    </div>
+                    <div class="blue-button-link">
+                        <!-- <a [routerlink]="['/edit-profile']"><i class="fa fa-pencil"></i>Edit profile</a> -->
+                        <a href="edit-profile"><i class="fa fa-pencil"></i>Edit profile</a>
+                    </div>
+                    <div class="custom-tabs">
+                        <ul class="nav nav-tabs">
+                            <li [ngClass]="{'active': myuploadStatus == true}" *ngIf="myuploadStatus"><a data-toggle="tab"
+                                    href="#myUploads" (click)="getUserUploadsArts(user_id)">My Uploads</a></li>
+                            <li [ngClass]="{'active': myuploadStatus == false}"><a data-toggle="tab" href="#myFavorites" (click)="FavArts(user_id)">My
+                                    Favorites</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="myUploads" class="tab-pane fade {{uploadstatusActiveClass}}">
+                                <ul class="art-sale-list">
+                                    <li *ngFor="let arts_list of AllArtsData">
+                                        <div class="inner-art box-hover-animation">
+                                            <!-- <div class="pos-absolute" *ngIf="auth.isLoggedIn();"> -->
+                                            <!-- <a href="#"><img src="assets/img/valentines-heart.svg" /></a>
+                                                        <a href="#"><img src="assets/img/white-share.svg" /></a> -->
+                                            <!-- <ng-container *ngIf="like_data==1 && artist_id==arts_list.art_id">
+                                                            <a (click)="onFollow(arts_list.art_id)" style="cursor: pointer;"> <img src="assets/img/red-valentines-heart.svg" />
+                                                            </a>
+                                                        </ng-container>
+                                                        <ng-container *ngIf="like_data==0  && artist_id==arts_list.art_id">
+                                                            <a (click)="onFollow(arts_list.art_id)" style="cursor: pointer;"> <img src="assets/img/valentines-heart.svg" /></a>
+                                                        </ng-container> -->
+                                            <!-- <a href="#"><img src="assets/img/white-share.svg" /></a> -->
+                                            <!-- </div> -->
+                                            <a href="art-details/{{arts_list.art_id}}">
+                                                <div class="inner-art-imgbox">
+                                                    <img [src]='arts_list.image_url' alt="Image">
+                                                </div>
+                                            </a>
+                                            <div class="price">${{arts_list.price}}
+                                                <div class="pull-right" *ngIf="auth.isLoggedIn();">
+                                                    <ng-container *ngIf="arts_list.art_exists=='Yes'">
+                                                        <a (click)="onFavourite(arts_list.art_id)" style="cursor: pointer;">
+                                                            <img style="width:15px !important" src="assets/img/blue-valentines-heart.svg" />
+                                                        </a>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="arts_list.art_exists=='No'">
+                                                        <a (click)="onFavourite(arts_list.art_id)" style="cursor: pointer;">
+                                                            <i class="fa fa-heart-o"></i></a>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                            <div class="img-title">{{arts_list.art_title |titlecase}}</div>
+                                        </div>
+                                    </li>
+
+                                </ul>
+                            </div>
+                            <div id="myFavorites" class="tab-pane fade {{favouritetSatusActiveClass}}">
+
+                                <ul class="art-sale-list" *ngIf="favouriteArtsData">
+                                    <li *ngFor="let fav_list of favouriteArtsData">
+                                        <div class="inner-art box-hover-animation">
+
+                                            <img [src]='fav_list.real_image_name' alt="Image">
+                                            <div class="price">${{fav_list.price}}
+                                                <div class="pull-right" *ngIf="auth.isLoggedIn();">
+                                                    <ng-container *ngIf="fav_list.art_exists=='Yes'">
+                                                        <a (click)="onFavourite(fav_list.art_id)" style="cursor: pointer;">
+                                                            <img style="width:15px !important" src="assets/img/blue-valentines-heart.svg" />
+                                                        </a>
+                                                    </ng-container>
+                                                    <ng-container *ngIf="fav_list.art_exists=='No'">
+                                                        <a (click)="onFavourite(fav_list.art_id)" style="cursor: pointer;">
+                                                            <i class="fa fa-heart-o"></i></a>
+                                                    </ng-container>
+                                                </div>
+                                            </div>
+                                            <div class="assets/img-title">{{fav_list.title |titlecase}}</div>
+                                        </div>
+                                    </li>
+                                </ul>
+                                <div *ngIf="!favouriteArtsData">
+                                    <p style="text-align:center">No Record Found</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<app-footer></app-footer>

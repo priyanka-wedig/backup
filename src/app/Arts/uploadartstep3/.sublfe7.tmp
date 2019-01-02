@@ -1,0 +1,67 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+        <div class="art-steps">
+            <div class="title">Add description:</div>
+            <div class="add-description">
+                <div class="top-img">
+                    <img src="img/img-1.jpg" alt="Image">
+                    <div class="img-name">my_art_v1.png</div>
+                </div>
+                <div class="form-group m-b-100">
+                    <label for="">Name*</label>
+                    <input type="text" class="form-control">
+                </div>
+                <div class="form-group">
+                    <label for="">Name*</label>
+                    <textarea class="form-control" rows="5"></textarea>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <a href="sell-art-4.html" class="blue-button">NEXT</a>
+                <p>Having problems with the web app? <a href="javascript:void(0);">Contact Us</a></p>
+            </div>
+        </div>
+    </div>
+</div>
+<!--footer links-->
+<section class="footer-links">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-3">
+                <p>Skeuomo</p>
+                <ul>
+                    <li><a href="about-us.html">About Us</a></li>
+                    <li><a href="blog.html">Blog</a></li>
+                    <li><a href="contactus.html">Contact</a></li>
+                    <li><a href="terms%26condition.html">Terms and Conditions</a></li>
+                </ul>
+            </div>
+            <div class="col-sm-3">
+                <p>Support</p>
+                <ul>
+                    <li><a href="invitefriend.html">Invite Friends</a></li>
+                    <li><a href="#">Delivery</a></li>
+                    <li><a href="#">Returns & Refunds</a></li>
+                    <li><a href="#">Customer Support</a></li>
+                    <li><a href="#">Seller Support</a></li>
+                </ul>
+            </div>
+            <div class="col-md-4 col-md-offset-1 col-sm-5 col-sm-offset-0 col-xs-12">
+                <p class="m-bottom20">Get The mobile App</p>
+                <ul class="list-inline m-bottom50">
+                    <li><a href="#"><img src="img/apple.png"> </a></li>
+                    <li><a href="#"><img src="img/play.png"></a></li>
+                </ul>
+                <p class="m-bottom20 secure-payment-list">Secure Payments</p>
+                <ul class="list-inline">
+                    <li><a href="#"><img src="img/p1.png"> </a></li>
+                    <li><a href="#"><img src="img/p2.png"></a></li>
+                    <li><a href="#"><img src="img/p3.png"> </a></li>
+                    <li><a href="#"><img src="img/p4.png"></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+<app-header></app-header>

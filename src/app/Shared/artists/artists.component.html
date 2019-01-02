@@ -1,0 +1,77 @@
+<app-header></app-header>
+<div class="artists-section">
+    <div class="container">
+        <div class="inner-search">
+            <span class="fa fa-search"></span>
+            <input type="text" placeholder="Search artists" [(ngModel)]="filteredName" >
+        </div>
+        <div class="comman-heading">
+            <div class="title">Artists</div>
+            <div class="sub-title">Here you would have a sentence that would explain a few things.</div>
+        </div>
+        <div class="rows ">
+            <ul class="artists-list">
+                <li *ngFor="let artist_listing of ArtistList | search:filteredName">
+                    <div class="a-box">
+                       
+                        <div class="left-img">
+                            <span class="status success"></span>
+                            <ng-container *ngIf="artist_listing.image_url !=''">
+                                     <a [routerLink]="['/artist-profile/',artist_listing.user_id]">
+                                            <img src="{{artist_listing.image_url}}" alt="Image"></a></ng-container>
+                                    <ng-container *ngIf="artist_listing.image_url==''">
+                                         <a [routerLink]="['/artist-profile/',artist_listing.user_id]"> <img src="assets/img/avatar1.png" alt="Icon"></a></ng-container>
+
+                           
+                        </div>
+                        
+                        <div class="right-block">
+                                <a [routerLink]="['/artist-profile/',artist_listing.user_id]"  class="name">
+                            <!-- <a href="artist-profile" class="name"> -->
+                                {{artist_listing.firstname |titlecase}} {{artist_listing.lastname |titlecase}}</a>
+                            <div class="location"><i class="fa fa-map-marker"></i>{{artist_listing.city_name}}, {{artist_listing.country_name}}</div>
+                            <div class="stars disabled-opt">
+                                <a href="javascript:void(0);" class="fa fa-star active"></a>
+                                <a href="javascript:void(0);" class="fa fa-star active"></a>
+                                <a href="javascript:void(0);" class="fa fa-star active"></a>
+                                <a href="javascript:void(0);" class="fa fa-star active"></a>
+                                <a href="javascript:void(0);" class="fa fa-star"></a>
+                                <span class="number">(0)</span>
+                            </div>
+                        </div>
+                    </div>
+                </li>
+              
+            </ul>
+        </div>
+        
+        <div class="bottom-load-button" *ngIf="ArtistList.length>12">
+            <a href="javascript:void(0);">LOAD MORE</a>
+        </div>
+    </div>
+</div>
+<section class="subscribe rows">
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-10 col-sm-offset-1">
+                  <h6>Sign up for our public beta launch in 2018! only 200 spots available now.</h6>
+                  <p>Excepteur sint occaecat cupidatat non proent, sunt in culpa qui official deserunt mollit anim sint id
+                      est laborum </p>
+              </div>
+          </div>
+          <form>
+              <div class="row">
+                  <div class="col-sm-6 col-sm-offset-2 col-xs-8">
+                      <div class="form-group">
+                          <i class="fa fa-envelope"></i>
+                          <input type="text" placeholder="Email Address" required="" class="form-control">
+                      </div>
+                  </div>
+                  <div class="col-sm-2 col-xs-4">
+                      <input type="submit" value="SUBSCRIBE" class="btn-submit">
+                  </div>
+              </div>
+          </form>
+      </div>
+  </section>
+<app-footer></app-footer>

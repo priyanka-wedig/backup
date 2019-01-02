@@ -1,0 +1,58 @@
+<app-header></app-header>
+<div class="search-results-page">
+    <div class="search-results-top">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-10 col-md-offset-1">
+                    <div class="inner-search">
+                        <span class="fa fa-search"></span>
+                        
+                        <input type="text" placeholder="Search "  [(ngModel)]="filteredName"  >
+                        <a href="javascript:void(0);" class="fa fa-times"></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="search-results-title">Showing results for <b>{{filteredName}}</b></div>
+                <div class="custom-tabs">
+                    <ul class="nav nav-tabs">
+                        <li class="active"><a data-toggle="tab" href="#ArtPieces" (click)="getArt()">Art Pieces</a></li>
+                        <li><a data-toggle="tab" href="#Artists" (click)="getUsers()">Artists</a></li>
+                    </ul>
+                    <input type="hidden" [(ngModel)]="filterflag">
+                    <div class="tab-content">
+                        <div id="ArtPieces" class="tab-pane fade in active">
+                            <ul class="art-sale-list">                                        
+                                <li *ngFor="let search_listing of SearchList | filter:filteredName:filterflag">
+                                    <div class="inner-art">
+                                        <img src="{{search_listing.art_picture}}" alt="Image">
+                                        <div class="price">$600</div>
+                                        <div class="img-title">{{search_listing.title}}</div>
+                                    </div>
+                                </li>
+                               
+                            </ul>
+                        </div>
+                        <div id="Artists" class="tab-pane fade">
+                            <ul class="art-sale-list">
+                                <li *ngFor="let search_listing of SearchList">
+                                    <div class="inner-art">
+                                        <img src="{{search_listing.user_image}}" alt="Image">
+                                        <div class="price">$400</div>
+                                        <div class="img-title">{{search_listing.first_name}} {{search_listing.last_name}}</div>
+                                    </div>
+                                </li>
+                              
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

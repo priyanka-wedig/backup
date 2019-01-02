@@ -1,0 +1,238 @@
+<app-header></app-header>
+<div class="category-view-page">
+      <div class="blue-filter-sec">
+          <div class="container">
+              <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">GENRES</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                    <span>
+                            <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallGenre()'>Select All</a><a href="javascript:void(0);" class="select-all pull-right"  (click)='clearallGenre($event)'>Clear</a>
+                    </span>
+                    <div class="search-category">
+                      <input class="form-control" name="" placeholder="Search" type="text" id="filter_genre">
+                      <span class="search-icon">
+                        <i class="fa fa-search"></i>
+                      </span>
+                    </div>
+                    
+                  <ul class="blue-sec-dd">
+                      <ng-container *ngFor="let genre of GenreList">
+                        <li class="searchTools_genre">
+                            <input [(ngModel)]="genre.name" name="{{ genre.id }}" type="checkbox" id="{{genre.genre}}" (change)="onChangeGenre($event, genre)">
+                            <label class="form-check-label" for="{{genre.genre}}">
+                                {{genre.genre}}
+                            </label>  
+                        <!-- <a href="#" class="small" id="genre.id" tabIndex="-1" (click)="getGenresData(genre.id)">
+                            
+                               
+                            
+                            <input type="checkbox"/>
+                        <label>{{genre.genre}}</label></a> -->
+                        </li>
+                        </ng-container>
+                        <li id="filter-count_genre" style="color: black;">
+                          
+                        </li>
+                  </ul>
+                  </div>
+              </div>
+              <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">SUBJECT</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                        <span>
+                                <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallSubject()'>Select All</a><a href="javascript:void(0);" (click)='clearallSubject($event);' class="select-all pull-right" >Clear</a>
+                        </span>
+                        <div class="search-category">
+                            <input class="form-control" name="" placeholder="Search" type="text" id="filter_subject">
+                            <span class="search-icon">
+                              <i class="fa fa-search"></i>
+                            </span>
+                          </div>
+                        <ul class="blue-sec-dd">
+                      <!-- <li><a href="javascript:void(0);" class="heading-dd">Choose Subject</a></li> -->
+                      <ng-container *ngFor="let subject of SubjectList">
+                      <li class="searchTools_subject">
+                          <!-- <a href="javascript:void(0);" class="small" id="subject.id" tabIndex="-1" (click)="getSubjectData(subject.id)"><input type="checkbox"/>
+                        <label>{{subject.subject}}</label></a> -->
+                        <input [(ngModel)]="subject.subjectname" name="{{ subject.id }}" type="checkbox" id="{{subject.subject}}" (change)="onChangeSubject($event, subject)">
+                        <label class="form-check-label" for="{{subject.subject}}">
+                            {{subject.subject}}
+                        </label>  
+                    
+                    
+                    </li></ng-container>
+                    <li id="filter-count_subject" style="color: black;">
+                          
+                    </li>
+                  </ul>
+                  </div>
+              </div>
+              <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">MEDIUM</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                        <span>
+                                <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallMedium()'>Select All</a><a href="javascript:void(0);" (click)='clearallMedium($event)' class="select-all pull-right">Clear</a>
+                        </span>
+                        <div class="search-category">
+                            <input class="form-control" name="" placeholder="Search" type="text" id="filter_medium">
+                            <span class="search-icon">
+                              <i class="fa fa-search"></i>
+                            </span>
+                          </div>
+                  <ul class="blue-sec-dd">
+                      <!-- <li><a href="javascript:void(0);" class="heading-dd">Choose Medium</a></li> -->
+                       <ng-container *ngFor="let medium of MediumList">
+                      <li class="searchTools_medium">
+                          <!-- <a href="javascript:void(0);" class="small" id="medium.id" tabIndex="-1" (click)="getMediumData(medium.id)"><input type="checkbox" />
+                        <label>{{medium.medium}}</label></a> -->
+                        <input [(ngModel)]="medium.mediumname" name="{{ medium.id }}" type="checkbox" id="{{medium.medium}}" (change)="onChangeMedium($event, medium)">
+                        <label class="form-check-label" for="{{medium.medium}}">
+                            {{medium.medium}}
+                        </label>  
+                    </li>
+                        </ng-container>
+                        <li id="filter-count_medium" style="color: black;">
+                          
+                        </li>
+                  </ul>
+                  </div>
+              </div>
+              <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">MOOD</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                        <span>
+                                <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallMood()'>Select All</a><a href="javascript:void(0);" class="select-all pull-right" (click)='clearallMood($event)'>Clear</a>
+                        </span>
+                        <div class="search-category">
+                            <input class="form-control" name="" placeholder="Search" type="text" id="filter_mood">
+                            <span class="search-icon">
+                              <i class="fa fa-search"></i>
+                            </span>
+                          </div>
+                  <ul class="blue-sec-dd">
+                      <!-- <li><a href="javascript:void(0);" class="heading-dd">Choose Mood</a></li> -->
+                        <ng-container *ngFor="let mood of MoodList">
+                        <li class="searchTools_mood">
+                            <!-- <a href="javascript:void(0);" class="small" id="mood.id" tabIndex="-1"  (click)="getMoodData(mood.id)"><input type="checkbox"/>
+                            <label>{{mood.mood}}</label></a> -->
+                            <input [(ngModel)]="mood.moodname" name="{{ mood.id }}" type="checkbox" id="{{mood.mood}}" (change)="onChangeMood($event, mood)">
+                            <label class="form-check-label" for="{{mood.mood}}">
+                                {{mood.mood}}
+                            </label>  
+                        </li>
+                        </ng-container>
+                      
+                        <li id="filter-count_mood" style="color: black;">
+                          
+                        </li>
+                  </ul>
+                  </div>
+              </div>
+              <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">PRICE RANGE</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                        <span>
+                                <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallPrice()'>Select All</a><a href="javascript:void(0);" class="select-all pull-right" (click)='clearallPrice($event)'>Clear</a>
+                        </span>
+                        
+                  <ul class="blue-sec-dd">
+                      <!-- <li><a href="javascript:void(0);" class="heading-dd">Choose Price</a></li> -->
+                      <ng-container *ngFor="let price of artprice">
+                            <li>
+                               <input [(ngModel)]="price.price" name="{{ price.id }}" type="checkbox" id="{{price.text}}" (change)="onChangeprice($event, price)">
+                               <label class="form-check-label" for="{{price.text}}">
+                                   {{price.text}}
+                               </label>  
+   
+                         </li>
+                         </ng-container>
+                  </ul>
+                  </div>
+              </div>
+            <div class="button-group">
+                  <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Art Size</button>
+                  <div class="blue-filter-scroller dropdown-menu">
+                        <span>
+                                <a href="javascript:void(0);" class="select-all pull-left" (click)='selectallSize()'>Select All</a><a href="javascript:void(0);" class="select-all pull-right" (click)='clearallSize($event)'>Clear</a>
+                        </span>
+                  <ul class="blue-sec-dd">
+                      <!-- <li><a href="javascript:void(0);" class="heading-dd">Choose size</a></li> -->
+                      <ng-container *ngFor="let size of artSize">
+                         <li>
+                            <input [(ngModel)]="size.size" name="{{ size.id }}" type="checkbox" id="{{size.text}}" (change)="onChangeSize($event, size)">
+                            <label class="form-check-label" for="{{size.text}}">
+                                {{size.text}}
+                            </label>  
+
+                      </li>
+                      </ng-container>
+                  </ul>
+                  </div>
+              </div>
+              <div class="button-group">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" data-toggle="dropdown">Sort By</button>
+                    <div class="blue-filter-scroller dropdown-menu">
+                       
+                    <ul class="blue-sec-dd radio-check-list">
+                        <ng-container *ngFor="let order of artOrder">
+                            <li>
+                                <input [(ngModel)]="order.order" name="sorting" type="radio" [value]="order" (change)="onChangeRadio($event, order)">
+                                <label class="form-check-label" >
+                                    {{order.text}}
+                                </label>  
+                            </li>  
+                        </ng-container>                   
+                    </ul>
+                    </div>
+                </div>
+              <div class="button-group pull-right">
+                    <button type="button" class="btn btn-default btn-sm dropdown-toggle" (click)="resetall()">Reset Filter</button>
+                    </div>
+          </div>
+      </div>
+      <div class="container">
+          <div class="row">
+              <div class="col-sm-12">
+                  <div class="page-title"><div class="pull-left">Artisan Galleria</div></div>
+              </div>
+          </div>
+          
+          <div class="grid category-list" *ngIf="ArtisanGalleriArt">
+            <div class="grid-item box-hover-animation" *ngFor="let ArtisanGallery of ArtisanGalleriArt | paginate: { itemsPerPage:12, currentPage: p }">
+                    <a href="art-details/{{ArtisanGallery.id}}">
+                  <img src="{{ArtisanGallery.art_picture}}" alt="">
+              </a>
+              <div class="price">${{ArtisanGallery.price}}
+                    <div class="pull-right" *ngIf="auth.isLoggedIn();">
+                            <ng-container *ngIf="ArtisanGallery.art_exists=='Yes'">
+                                <a (click)="onFavourite(ArtisanGallery.id)" style="cursor: pointer;">
+                                    <img style="width:15px !important" src="assets/img/blue-valentines-heart.svg" />
+                                </a>
+                            </ng-container>
+                            <ng-container *ngIf="ArtisanGallery.art_exists=='No'">
+                                <a (click)="onFavourite(ArtisanGallery.id)" style="cursor: pointer;">
+                                    <i class="fa fa-heart-o"></i></a>
+                            </ng-container>
+                        </div>
+              </div>
+              <div class="title-heading">{{ArtisanGallery.title |titlecase}}</div>
+              <div class="title-sub">{{ArtisanGallery.first_name |titlecase}} {{ArtisanGallery.last_name |titlecase}}</div>
+            </div>
+      
+          </div>
+         
+          <div class="grid category-list d-inline"  *ngIf="!ArtisanGalleriArt">
+                <div class="grid-item text-center" >No Record Found</div>
+         </div>
+          <div class="pagination-sec">
+              <ul class="pagination">                 
+                <pagination-controls class="my-pagination pagination" (pageChange)="p = $event" directionLinks="true" autoHide="true" 
+                previousLabel=""
+                nextLabel=""
+                responsive="true"></pagination-controls>
+              </ul>
+          </div>
+
+      </div>
+  </div>
+  <app-footer></app-footer>

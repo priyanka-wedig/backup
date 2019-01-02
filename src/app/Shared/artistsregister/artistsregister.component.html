@@ -1,0 +1,163 @@
+<app-header></app-header>
+<div class="signup-artist sell-inner">
+    <div class="container">
+    <ng-container *ngIf="!user_id">
+        <div class="modal-heading">Register as an Artist</div>
+     </ng-container>
+    <ng-container *ngIf="user_id">
+        <div class="modal-heading">Upgrade to Artist</div>
+        </ng-container>
+        <form class="custom-form register-form sell-art-register-form" [formGroup]="artistform" (ngSubmit)="artistreg()"
+            novalidate>
+            <div class="row">
+                <!-- <input required type="hidden" name="user_id" class="form-control" formControlName="user_id"> -->
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input required type="text" name="firstname" class="form-control" placeholder="First Name"
+                            formControlName="firstname">
+                        <!-- <p class="error-msg text-danger" *ngIf="formErrors.name">{{ formErrors.name }}</p> -->
+                        <p class="error-msg text-danger" style="text-align: left" *ngIf="f.firstname.touched && f.firstname.invalid">
+                            <span *ngIf="f.firstname.errors?.required">First name is required.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <input required type="text" name="lastname" class="form-control" placeholder="Last Name"
+                            formControlName="lastname">
+                        <!-- <p class="error-msg text-danger" *ngIf="formErrors.lastName">{{ formErrors.lastName }}</p> -->
+                        <p class="error-msg text-danger" style="text-align: left" *ngIf="f.lastname.touched && f.lastname.invalid">
+                            <span *ngIf="f.lastname.errors?.required">Last name is required.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group">
+                <input type="text" required name="email" class="form-control" placeholder="Email Address"
+                    formControlName="email">
+                <!-- <p class="error-msg text-danger" *ngIf="formErrors.email">{{ formErrors.email }}</p> -->
+                <p class="error-msg text-danger" style="text-align: left" *ngIf="f.email.touched && f.email.invalid">
+                    <span *ngIf="f.email.errors?.required">Email is required.</span>
+                    <span *ngIf="f.email.errors.email">Email must be a valid email address.</span>
+
+                </p>
+            </div>
+            <div class="form-group">
+                <input type="text" required name="mobile" class="form-control" placeholder="Mobile No." formControlName="mobile">
+                <p class="error-msg text-danger" style="text-align: left" *ngIf="f.mobile.touched && f.mobile.invalid">
+                    <span *ngIf="f.mobile.errors?.required">Mobile Number is required.</span>
+                </p>
+
+            </div>
+            <div class="form-group">
+                <input type="text" required name="address" class="form-control" placeholder="Address" formControlName="address">
+                <p class="error-msg text-danger" style="text-align: left" *ngIf="f.address.touched && f.address.invalid">
+                    <span *ngIf="f.address.errors?.required">Address is required.</span>
+                </p>
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+
+                        <input type="text" required name="ZipCode" class="form-control" placeholder="Zip Code"
+                            formControlName="ZipCode">
+                        <p class="error-msg text-danger" style="text-align: left"  *ngIf="f.ZipCode.touched && f.ZipCode.invalid">
+                            <span *ngIf="f.ZipCode.errors?.required">Zip Code is required.</span>
+                        </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <select class="form-control" formControlName="Country" (ngModelChange)="GetState($event)">
+                            <option value='null'>Country</option>
+                            <option  *ngFor="let country of CountryList" [ngValue]="country.id">{{country.country_name}}</option>
+                        </select>
+                        <p class="error-msg text-danger" style="text-align: left" *ngIf="f.Country.touched && f.Country.invalid">
+                            <span *ngIf="f.Country.errors?.required">Country is required.</span>
+                        </p>
+                    </div>
+                </div>
+               
+            </div>
+            <div class="row">
+                <div class="col-sm-6">
+                    <div class="form-group">
+                       <select class="form-control" formControlName="State" (ngModelChange)="GetCity($event)">
+                        <option value="null">State</option>
+                        <option  *ngFor="let state of StateList" [ngValue]="state.id">{{state.state_name}}</option>
+                    </select>
+                    <p class="error-msg text-danger" style="text-align: left" *ngIf="f.State.touched && f.State.invalid">
+                        <span *ngIf="f.State.errors?.required">State is required.</span>
+                    </p>
+                    </div>
+                </div>
+                <div class="col-sm-6">
+                    <div class="form-group">
+                        <!-- <select class="form-control" formControlName="City">
+                            <option value="null">City</option>
+                            <option *ngFor="let city of CityList"  [ngValue]="city.id" >{{city.city_name}}</option>
+                        </select> -->
+                        <input type="text" class="form-control" formControlName="City">
+                        <p class="error-msg text-danger" style="text-align: left" *ngIf="f.City.touched && f.City.invalid">
+                            <span *ngIf="f.City.errors?.required">City is required.</span>
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ng-container *ngIf="!user_id">
+                <div class="col-sm-6">
+            <div class="form-group">
+                <input type="Password" required name="password"  class="form-control"  placeholder="Password" formControlName="password"    >
+                <!-- <p class="error-msg text-danger" *ngIf="formErrors.password">{{ formErrors.password }}</p> -->
+                <p class="error-msg text-danger"  style="text-align: left" *ngIf="f.password.touched && f.password.invalid">
+                        <span  *ngIf="f.password.errors?.required">Password is required.</span>
+                    <span class="error-msg" *ngIf="!f.password.errors?.patterns && f.password.value != ''">Password must contain more than 8 characters, 1 upper case letter, and 1 special character.</span>
+                    </p>
+            </div>
+            </div>
+            <div class="col-sm-6">
+            <div class="form-group">
+                <input type="Password" required name="confirmpassword"  class="form-control" placeholder="Confirm Password" formControlName="confirmpassword"    >
+                <!-- <p class="error-msg text-danger" *ngIf="formErrors.confirmpassword">{{ formErrors.confirmpassword }}</p> -->
+                <p class="error-msg text-danger"  style="text-align: left" *ngIf="f.confirmpassword.touched && f.confirmpassword.invalid">
+                        <span  *ngIf="f.confirmpassword.errors?.required">Confirm password is required.</span>
+                </p>
+                <p class="error-msg text-danger" style="text-align: left" *ngIf="(artistform.hasError('notSame')) && (f.confirmpassword.touched && f.password.touched)">
+                        Password and Confirm passwords do not match
+                    </p>
+                    </div>
+            </div>
+        </ng-container>
+            </div>
+            <div class="form-group text-left">
+                <label class="custom-checkbox">
+                    <input required class="with-gap" name="group1" type="checkbox"  formControlName="group1" />
+                    <span class="lbl"></span>
+                    <span> 
+                        <a [routerLink]="['/terms-conditions']" target="_blank" >Privacy and Terms And
+                            Conditions</a></span>
+                            <p class="error-msg text-danger" style="text-align: left" *ngIf="f.group1.touched && f.group1.invalid">
+                                <span *ngIf="f.group1.errors?.required">Privacy and Terms And
+                                    Conditions</span>
+                            </p>
+                          
+                </label>
+            </div>
+        <div [ngClass]="{'pos-rel no-hover': artistLoader == true}">
+            <div class="btn-loader2" *ngIf="artistLoader == true">Loading...</div>
+                <ng-container *ngIf="!user_id">
+                    <button [disabled]="!artistform.valid" class="btn blue-btn">Sign Up</button>
+                </ng-container>
+                <ng-container *ngIf="user_id">
+                    <button [disabled]="!artistform.valid" class="btn blue-btn">Upgrade</button>
+                </ng-container>
+        </div>
+        <ng-container *ngIf="!user_id">
+            <div class="form-link">Already have an account? <a href="#login-modal" data-dismiss="modal" data-toggle="modal"
+                    data-target="#login-modal">Sign In here</a></div>
+        </ng-container>
+        </form>
+    </div>
+</div>
+<app-footer>/</app-footer>

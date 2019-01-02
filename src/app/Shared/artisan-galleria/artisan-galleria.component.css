@@ -1,0 +1,19 @@
+
+  .my-pagination /deep/ .ngx-pagination .current {
+    /*background: red;
+    font-family: Montserrat;
+    font-size: 14px;
+    font-weight: normal;
+    font-style: normal;
+    font-stretch: normal;
+    line-height: normal;
+    letter-spacing: normal;
+    color: #3a405b;
+    border: none;
+    height: 49px;
+    line-height: 41px;
+    width: 49px;
+    border-radius: 100%;
+    background: transparent;
+    cursor: pointer;*/
+  }

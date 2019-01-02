@@ -1,0 +1,100 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+        <ul class="progressbar">
+                <li class="active remove-anchor"></li>
+                <li class="remove-anchor"></li>
+                <li class="remove-anchor"></li>
+                <li class="remove-anchor"></li>
+                <li class="remove-anchor"></li>
+              </ul>
+        <div class="art-steps">
+            <div class="title">Upload your art:</div>
+            <div class="sub-title">{{file_name}}</div>
+            <!-- <div class="progress">
+                <div class="progress-bar" role="progressbar" aria-valuenow="70" aria-valuemin="0" aria-valuemax="100" style="width:55%"></div>
+            </div> -->
+            <ng-container *ngIf="url!='' && (art_url=='' || art_id == undefined) &&  (back_image=='')">
+            
+                <div class="img-box">
+                    <span>
+                    <a style="cursor: pointer;" (click)="remove()" class="cross-icon"></a>
+                    </span>
+                   
+                    <ng-container *ngIf="file_type=='image/jpeg'">
+                    
+                        <image-cropper
+                            [imageChangedEvent]="imageChangedEvent"
+                            [maintainAspectRatio]="true"
+                            [aspectRatio]="1 / 1"
+                            [resizeToWidth]="500"
+                            format="jpeg"
+                            (imageCropped)="imageCropped($event)"
+                            (imageLoaded)="imageLoaded()"
+                            (loadImageFailed)="loadImageFailed()">
+                        </image-cropper>
+                    </ng-container>
+                    <ng-container *ngIf="file_type=='image/png'">
+                        <image-cropper
+                                [imageChangedEvent]="imageChangedEvent"
+                                [maintainAspectRatio]="true"
+                                [aspectRatio]="1 / 1"
+                                [resizeToWidth]="500"
+                                format="png"
+                                (imageCropped)="imageCropped($event)"
+                                (imageLoaded)="imageLoaded()"
+                                (loadImageFailed)="loadImageFailed()">
+                            </image-cropper>
+                    </ng-container>
+                   
+                </div>
+            </ng-container>
+           
+            <ng-container *ngIf="art_url!='' && art_id != undefined">
+            
+                <div class="img-box">
+                <span>
+                        <a style="cursor: pointer;" (click)="remove_art_image()" class="cross-icon"></a>
+                        </span>
+                    
+                    <div class="drag-drop">
+                        <img [src]="art_url" >
+                    </div>
+                    </div>
+            </ng-container>
+           
+            <ng-container *ngIf="back_image !='' && back_image !=undefined">
+            
+                    <div class="img-box">
+                    <span>
+                            <a style="cursor: pointer;" (click)="remove_back_art_image()" class="cross-icon"></a>
+                            </span>
+                        
+                        <div class="drag-drop">
+                            <img [src]="back_image" >
+                        </div>
+                        </div>
+                </ng-container>
+            
+            <div class="drag-drop" *ngIf="url=='' && (art_url=='' || art_id == undefined) && (back_image=='' || back_image == undefined)">
+            
+                <input type='file' required (change)="onSelectFile($event)" class="hide-input"/>
+                <img src="assets/img/plus.png" alt="Icon" class="plus-icon"> 
+                <div class="dd-title">Drag & Drop</div>
+                <a href="javascript:void(0);" class="dd-sub-title">or upload manually</a>
+            </div>
+            <p class="error-msg text-danger">
+                <span >{{validationMessage}}</span>
+            </p>
+            <div class="bottom-row">
+                <div [ngClass]="{'pos-rel no-hover': artistLoader == true}">
+                    <div class="btn-loader2" *ngIf="artistLoader == true">Loading...</div>
+                    <button  class="btn blue-btn" (click)="uploadartstep2(file_size)">NEXT</button>
+                </div>
+                <p>Having problems with the web app? <a href="contact" target="_blank">Contact Us</a></p>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

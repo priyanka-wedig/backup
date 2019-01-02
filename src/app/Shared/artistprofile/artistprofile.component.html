@@ -1,0 +1,122 @@
+<app-header></app-header>
+<div class="artist-profile-section">
+    <div class="top-img">
+        <!-- <img src="assets/img/artist-profile-bg.jpg" alt="Image"> -->
+        <ng-container *ngIf="artistProfile.header_image_url !=''">
+            <img src="{{artistProfile.header_image_url}}" alt="Icon"></ng-container>
+        <ng-container *ngIf="artistProfile.header_image_url==''">
+            <img src="assets/img/artist-profile-bg.jpg" alt="Image"></ng-container>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="artist-profile-inner">
+                    <div class="a-user">
+                        <!-- <img src="assets/img/avatar1.png" alt="Image"> -->
+                        <ng-container *ngIf="artistProfile.image_url !=''">
+                            <img src="{{artistProfile.image_url}}" alt="Image"></ng-container>
+                        <ng-container *ngIf="artistProfile.image_url==''">
+                            <img src="assets/img/avatar1.png" alt="Icon"></ng-container>
+
+                        <a href="javascript:void(0);" class="fa fa-comment"></a>
+                    </div>
+                    <div class="name">{{artistProfile.firstname |titlecase}} {{artistProfile.lastname |titlecase}}</div>
+                    <div class="post">
+                        <ng-container *ngIf="artistProfile.inspiration">
+                            {{artistProfile.inspiration |titlecase}}
+                        </ng-container>
+                        <ng-container *ngIf="artistProfile.inspiration && artistProfile.education">
+                            •
+                        </ng-container>
+                        <ng-container *ngIf="artistProfile.education">
+                            {{artistProfile.education |titlecase}}
+                        </ng-container>
+                    </div>
+                    <!-- <div class="stars-row disabled-opt">
+                        <a href="javascript:void(0);" class="fa fa-star active"></a>
+                        <a href="javascript:void(0);" class="fa fa-star active"></a>
+                        <a href="javascript:void(0);" class="fa fa-star active"></a>
+                        <a href="javascript:void(0);" class="fa fa-star active"></a>
+                        <a href="javascript:void(0);" class="fa fa-star active"></a>
+                        <span>(0)</span>
+                    </div> -->
+                    <div class="description">{{artistProfile.about |titlecase}}</div>
+                    <div class="text-link-row ">
+                        <a href="javascript:void(0);">{{this.followersCount}} FOLLOWERS</a>
+                        <a href="javascript:void(0);">{{this.followingCount}} FOLLOWING</a>
+                    </div>
+                    <div class="button-link-row ">
+                        <a href="javascript:void(0);" class="disabled-opt"><i class="fa fa-plus-circle"></i>Add to</a>
+                        <ng-container *ngIf="token_user_id!=userId">
+                            <ng-container *ngIf="follow_artist_data=='Follow'">
+                                <a href="javascript:void(0);" (click)="followArtist(userId)"><i class="fa fa-plus-circle"></i>UnFollow</a>
+                            </ng-container>
+                            <ng-container *ngIf="follow_artist_data=='Unfollow'">
+                                <a href="javascript:void(0);" (click)="followArtist(userId)"><i class="fa fa-plus-circle"></i>Follow</a>
+                            </ng-container>
+                        </ng-container>
+                        <a href="javascript:void(0);" class="disabled-opt"><i class="fa fa-envelope"></i>Message</a>
+
+                        <ng-container *ngIf="artistProfile.user_id==token_user_id && auth.isLoggedIn();">
+                            <a [routerLink]="['/edit-profile']" class="">Edit Profile</a>
+                        </ng-container>
+
+                    </div>
+                    <div class="a-top-heading">
+                        ART FOR SALE
+                        <span class="bottom-line"></span>
+                    </div>
+                    <ng-container *ngIf="artist_length >0">
+
+                        <ul class="art-sale-list">
+                            <li *ngFor="let artist_art of artistArt">
+                                <div class="inner-art box-hover-animation">
+                                    <!-- <a [routerLink]="['/art-details/',artist_art.art_id]"> -->
+                                    <!-- <div class="pos-absolute" *ngIf="auth.isLoggedIn();"> -->
+                                    <!-- <a href="#"><img src="assets/img/valentines-heart.svg" /></a>
+                                        <a href="#"><img src="assets/img/white-share.svg" /></a> -->
+                                    <!-- <ng-container *ngIf="like_data==1  && artist_id==artist_art.art_id">
+                                            <a (click)="onFollow(artist_art.art_id)" style="cursor: pointer;"> <img src="assets/img/red-valentines-heart.svg" />
+                                            </a>
+                                        </ng-container>
+                                        <ng-container *ngIf="like_data==0  && artist_id==artist_art.art_id">
+                                            <a (click)="onFollow(artist_art.art_id)" style="cursor: pointer;"> <img src="assets/img/valentines-heart.svg" /></a>
+                                        </ng-container> -->
+                                    <!-- <a href="#"><img src="assets/img/white-share.svg" /></a> -->
+                                    <!-- </div> -->
+                                    <a href="art-details/{{artist_art.art_id}}">
+                                        <div class="artist-img">
+                                            <img src="{{artist_art.image_url}}" alt="Image">
+                                        </div>
+                                    </a>
+                                    <div class="price">${{artist_art.price}}
+                                        <div class="pull-right"  *ngIf="auth.isLoggedIn();">
+                                            <ng-container *ngIf="artist_art.art_exists=='Yes'">
+                                                <a (click)="onFavourite(artist_art.art_id)" style="cursor: pointer;"> <img
+                                                        style="width:15px !important" src="assets/img/blue-valentines-heart.svg" />
+                                                </a>
+                                            </ng-container>
+                                            <ng-container *ngIf="artist_art.art_exists=='No'">
+                                                <a (click)="onFavourite(artist_art.art_id)" style="cursor: pointer;"> <i
+                                                        class="fa fa-heart-o"></i></a>
+                                            </ng-container>
+                                        </div>
+                                    </div>
+                                    <div class="img-title">{{artist_art.art_title |titlecase}}</div>
+
+                                </div>
+                            </li>
+                        
+                        </ul>
+                    </ng-container>
+                    <ng-container *ngIf="artist_length < 1">
+
+                        <div style="text-align:center;">No Record Found</div>
+                    </ng-container>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

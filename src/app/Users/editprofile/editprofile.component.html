@@ -1,0 +1,365 @@
+<app-header></app-header>
+<div class="artist-profile-section">
+    <div class="top-img">
+        <ng-container *ngIf="backgroundBase64Image !=''">
+            <img src="{{backgroundBase64Image}}" alt="Icon"></ng-container>
+        <ng-container *ngIf="backgroundBase64Image==''">
+            <img src="assets/img/artist-profile-bg.jpg" alt="Image"></ng-container>
+        <a (click)="openBackgroungPopUp()" class="upload-header-photo-btn"><i class="camera-icon"></i>Upload header
+            photo</a>
+    </div>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-10 col-md-offset-1">
+                <div class="artist-profile-inner" [ngClass]="{'pos-rel-loader': profileLoader}">
+                    <!--pos-rel-loader Class hide/show background-->
+                    <div class="loader-custom" *ngIf="profileLoader">Loading...</div>
+                    <div class="edit-user">
+                        <div class="edit-user-table">
+                            <div class="edit-user-cell user-edit-icon" (click)="openPopUp()">
+                                <img src="{{base64Image}}" class="img-round">
+                                <!-- <img src="{{base64Image}}" class="img-round"> -->
+                                <!-- <input type="file" (change)="fileChangeEvent($event)" name="imageUpload" id="imageUpload"/> -->
+                                <img class="camera-icon" src="assets/img/camera-icon.png" />
+                            </div>
+                        </div>
+                    </div>
+                    <div class="name">{{firstName |titlecase}} {{lastName |titlecase}}</div>
+                    <div class="post">{{CityName}}, {{CountryName}}</div>
+                    <div class="text-link-row">
+                            <a href="javascript:void(0);">{{followersCount}} FOLLOWERS</a>
+                            <a href="javascript:void(0);">{{followingCount}} FOLLOWING</a>
+                    </div>
+                    <div class="left-tabs">
+                        <ul class="nav nav-tabs">
+                            <li class="active"><a data-toggle="tab" href="#Personal">Personal</a></li>
+                            <li><a data-toggle="tab" href="#GeneralInfo">General Info</a></li>
+                            <li><a data-toggle="tab" href="#DeliveryAddress">Delivery Address</a></li>
+                            <li><a data-toggle="tab" href="#Account">Account</a></li>
+                            <li><a data-toggle="tab" href="#Payment">Notifications</a></li>
+                        </ul>
+                        <div class="tab-content">
+                            <div id="Personal" class="tab-pane fade in active">
+                                <div class="form-tab-inner">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <form [formGroup]="personalform" (ngSubmit)="saveProfile(personalform.value,'personal')">
+                                                <div class="heading">Personal information</div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">First Name</label>
+                                                            <input type="text" class="form-control" [(ngModel)]=firstName
+                                                                formControlName="firstname">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">Last Name</label>
+                                                            <input type="text" class="form-control" [(ngModel)]=lastName
+                                                                formControlName="lastname">
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">Gender</label>
+                                                            <select id="Id" class="form-control" formControlName="gender">
+                                                                <option value="null">Select</option>
+                                                                <option *ngFor="let gender of genderOption" [value]=gender.Id>{{gender.Name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">Phone</label>
+                                                            <input type="number" maxlength="10" class="form-control"
+                                                                [(ngModel)]=mobileNo formControlName="mobile">
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <!-- <a href="my-profile.html" class="save-button">Save</a> -->
+
+                                                <div [ngClass]="{'pos-rel no-hover': saveProfileLoader == true}">
+                                                    <div class="btn-loader2" *ngIf="saveProfileLoader == true">Loading...</div>
+                                                    <input type="submit" class="save-button">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="GeneralInfo" class="tab-pane fade">
+                                <div class="form-tab-inner">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <form [formGroup]="generalform" (ngSubmit)="saveProfile(generalform.value,'general')">
+                                                <div class="heading">General Information</div>
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">Inspiration</label>
+                                                            <input type="text" class="form-control" [(ngModel)]=Inspiration
+                                                                formControlName="inspiration">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <div class="form-group">
+                                                            <label for="">Education</label>
+                                                            <input type="text" class="form-control" [(ngModel)]=Education
+                                                                formControlName="education">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-12">
+                                                        <div class="form-group">
+                                                            <label for="">Biography</label>
+                                                            <textarea class="form-control" rows="4" [(ngModel)]=about
+                                                                formControlName="about"></textarea>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <!-- <a href="my-profile.html" class="save-button">Save</a> -->
+                                                <div [ngClass]="{'pos-rel no-hover': saveProfileLoader == true}">
+                                                    <div class="btn-loader2" *ngIf="saveProfileLoader == true">Loading...</div>
+                                                    <input type="submit" class="save-button">
+                                                </div>
+
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="DeliveryAddress" class="tab-pane fade">
+                                <div class="form-tab-inner">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <form [formGroup]="deliveryform" (ngSubmit)="saveProfile(deliveryform.value,'DeliveryAddress')">
+                                                <div class="heading">Delivery Address</div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">Country</label>
+                                                            <select class="form-control" id="Country" formControlName="Country"
+                                                                (ngModelChange)="getAvailableState($event)">
+                                                                <option value="null">Select</option>
+                                                                <option *ngFor="let cou of countries" [value]="cou.id">{{cou.country_name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">State</label>
+                                                            <select class="form-control" id="State" formControlName="State"
+                                                                (ngModelChange)="getAvailableCity($event)">
+                                                                <option value="null">Select</option>
+                                                                <option *ngFor="let sta of states" [value]="sta.id">{{sta.state_name}}</option>
+                                                            </select>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">City</label>
+                                                            <!-- <select class="form-control" id="City" formControlName="City">
+                                                                <option value="null">Select</option>
+                                                                <option *ngFor="let ci of cities" [value]="ci.id">{{ci.city_name}}</option>
+                                                            </select> -->
+                                                            <input type="text" class="form-control" 
+                                                            formControlName="City">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">Zip Code</label>
+                                                            <input type="text" class="form-control" [(ngModel)]="ZipCode"
+                                                                formControlName="ZipCode">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-8">
+                                                        <div class="form-group">
+                                                            <label for="">Address</label>
+                                                            <input type="text" class="form-control" [(ngModel)]="Address"
+                                                                formControlName="Address">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div [ngClass]="{'pos-rel no-hover': saveProfileLoader == true}">
+                                                    <div class="btn-loader2" *ngIf="saveProfileLoader == true">Loading...</div>
+                                                    <input type="submit" class="save-button">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Account" class="tab-pane fade">
+                                <div class="form-tab-inner">
+                                    <div class="row">
+                                        <div class="heading">Accounts</div>
+                                        <div class="col-lg-10">
+                                            <!-- <form [formGroup]="accountform"   (ngSubmit)="saveProfile(accountform.value,'account')" >
+                                                <div class="heading">Account Settings</div>
+                                                <div class="row">
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">Username</label>
+                                                            <input type="text" class="form-control" formControlName="Username">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">New Password</label>
+                                                            <input type="text" class="form-control" formControlName="newPassword">
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-md-4">
+                                                        <div class="form-group">
+                                                            <label for="">Retry Password</label>
+                                                            <input type="text" class="form-control"  formControlName="confirmPassword">
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div  [ngClass]="{'pos-rel no-hover': saveProfileLoader == true}">
+                                                        <div class="btn-loader2" *ngIf="saveProfileLoader == true">Loading...</div>
+                                                        <input type="submit" class="save-button" >
+                                                    </div>
+                                            </form> -->
+                                            <div class="row">
+                                               <button type="button" class="btn btn-primary btn-sm" style="margin-left:100px">Upgrade your
+                                                    profile as an artist</button>
+                                            </div>
+                                            <div class="row margin_top10">
+                                                   <button type="button" class="btn btn-primary btn-sm" style="margin-left:100px">Upgrade your
+                                                    profile as an curator</button>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div id="Payment" class="tab-pane fade">
+                                <div class="form-tab-inner">
+                                    <div class="row">
+                                        <div class="col-lg-10">
+                                            <form [formGroup]="notificationform" (ngSubmit)="saveProfile(notificationform.value,'notification')">
+                                                <div class="heading">Notifications</div>
+                                                <!-- <div class="row">
+                                                        <div class="col-md-4">
+                                                                <div class="form-group">
+                                                                    <label for="">Username</label>
+                                                                    <input type="text" class="form-control" [(ngModel)]="Username" formControlName="Username">
+                                                                </div>
+                                                        </div>
+                                                </div> -->
+                                                <div class="row">
+                                                    <div class="col-md-4" *ngFor="let notiOtps of formData.controls; let i = index">
+                                                        <div class="form-group">
+                                                            <div class="form-check">
+                                                                <label>
+                                                                    <input type="checkbox" name="check" [formControl]="notiOtps">
+                                                                    <span class="label-text">{{
+                                                                        notificationOpts[i].name }}</span>
+                                                                </label>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+
+                                                </div>
+                                                <div [ngClass]="{'pos-rel no-hover': saveProfileLoader == true}">
+                                                    <div class="btn-loader2" *ngIf="saveProfileLoader == true">Loading...</div>
+                                                    <input type="submit" class="save-button">
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>
+<div class="modal fade" id="image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="width:100%">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearImageCropper()"><span
+                        aria-hidden="true">&times;</span></button>
+                <div class="artist-profile-inner">
+                    <div class="edit-user modal-edit-user-table">
+                        <div class="edit-user-table ">
+                            <div class="edit-user-cell user-edit-icon">
+                                <!--  <img src="{{userPicUrl}}" class="img-round"> -->
+                                <input type="file" (change)="fileChangeEvent($event)" name="imageUpload" id="imageUpload" />
+                                <img class="" src="assets/img/plus.png" />
+                                <div class="modal-upload-text">Upload profile picture</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <input type="file" (change)="fileChangeEvent($event)" name="imageUpload" id="imageUpload"/> -->
+                <div [hidden]="!picSelected">
+                    <image-cropper [imageChangedEvent]="imageChangedEvent" [maintainAspectRatio]="true" [aspectRatio]="1 / 1"
+                        [resizeToWidth]="128" format="png" (imageCropped)="imageCropped($event)" (imageLoaded)="imageLoaded()"
+                        (loadImageFailed)="loadImageFailed()"></image-cropper>
+                </div>
+                <!--                
+                <div  class="text-center" style="margin-top: 10px;" [hidden]="!base64Image">
+                    <img [src]="base64Image" />
+                </div> -->
+
+                <div class="form-group text-center margin_top15">
+                    <input type="submit" class="btn btn-submit " value="Save" (click)="saveCropppedImage()" *ngIf="picSelected">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="modal fade" id="header-image-crop-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-body" style="width:100%">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close" (click)="clearBackgroundImageCropper()"><span
+                        aria-hidden="true">&times;</span></button>
+                <div class="artist-profile-inner">
+                    <div class="edit-user modal-edit-user-table">
+                        <div class="edit-user-table ">
+                            <div class="edit-user-cell user-edit-icon">
+                                <!--  <img src="{{userPicUrl}}" class="img-round"> -->
+                                <input type="file" (change)="backgroundFileChangeEvent($event)" name="imageUpload" id="imageUpload" />
+                                <img class="" src="assets/img/plus.png" />
+                                <div class="modal-upload-text">Upload Header picture</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- <input type="file" (change)="fileChangeEvent($event)" name="imageUpload" id="imageUpload"/> -->
+                <div [hidden]="!backgroundPicSelected">
+                    <image-cropper [imageChangedEvent]="backgroundimageChangedEvent" [maintainAspectRatio]="true"
+                        [aspectRatio]="2 / 1" [resizeToWidth]="1583" format="png" (imageCropped)="backgroundImageCropped($event)"
+                        (imageLoaded)="backgroundImageLoaded()" (loadImageFailed)="loadImageFailed()"></image-cropper>
+                </div>
+
+                <!-- <div  class="text-center" style="margin-top: 10px;" [hidden]="!backgroundBase64Image">
+                        <img [src]="backgroundBase64Image" />
+                    </div>
+                     -->
+                <div class="form-group text-center margin_top15">
+                    <input type="submit" class="btn btn-submit " value="Save" (click)="saveBackgroundCropppedImage()"
+                        *ngIf="backgroundPicSelected">
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

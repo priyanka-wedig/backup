@@ -1,0 +1,72 @@
+<app-header></app-header>
+<div class="sell-inner">
+    <div class="container">
+        <ul class="progressbar">
+                <ng-container *ngIf="art_id!='' && art_id!=undefined && art_id!='undefined'">
+                        <li class="active add-anchor"><a href="/upload-art/{{art_id}}"></a></li>
+                </ng-container>
+                <ng-container *ngIf="art_id==''|| art_id==undefined || art_id=='undefined'">
+                        <li class="active add-anchor"><a href="/upload-art"></a></li>
+                </ng-container>
+            <li class="active add-anchor"><a href="/review-art"></a></li>
+            <li class="active remove-anchor"></li>
+            <li class="remove-anchor"></li>
+            <li class="remove-anchor"></li>
+          </ul>
+        <div class="art-steps">
+            <div class="title">Add description:</div>
+            <form [formGroup]="uploadArtWorkform"  (ngSubmit)="uploadArtWork()" novalidate>
+            <div class="add-description">
+                <div class="top-img">
+                    <img [src]="image_path"  alt="Image">
+                    <div class="img-name">{{file_name}}</div>
+                </div>
+                <div class="form-group m-b-100">
+                    <label for="">Title<sup class="red-star">*</sup></label>
+                    <input required type="text" name="name" class="form-control"  placeholder="Title" formControlName="name"  >
+                    <p class="error-msg text-danger"  *ngIf="f.name.touched && f.name.invalid">
+                        <span  *ngIf="f.name.errors?.required">Name is required.</span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="">Description<sup class="red-star">*</sup></label>
+                    <textarea required  name="description" class="form-control"  placeholder="Description" formControlName="description"   rows="5"></textarea>
+                    <p class="error-msg text-danger"  *ngIf="f.description.touched && f.description.invalid">
+                        <span  *ngIf="f.description.errors?.required">Description is required.</span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="">Artwork Price($)<sup class="red-star">*</sup></label>
+                    <input required type="text" name="price" class="form-control"  placeholder="Price" formControlName="price"  >
+                    <p class="error-msg text-danger"  *ngIf="f.price.touched && f.price.invalid">
+                        <span  *ngIf="f.price.errors?.required">Price is required.</span>
+                        <span  *ngIf="f.price.errors?.maxLength">Incorrect Price.</span>
+                        <span  *ngIf="!f.price.errors?.patterns && f.price.value != ''">Incorrect Prices.</span>
+                    </p>
+                </div>
+                <div class="form-group">
+                    <label for="">Quantity<sup class="red-star">*</sup></label>
+                    <!-- <input required type="text" name="quantity" class="form-control"  placeholder="Quantity" formControlName="quantity"  > -->
+                    <select class="form-control" formControlName="quantity" >
+                            <option value="">Quantity <sup class="red-star">*</sup></option>
+                            <option *ngFor="let quantityList of quantitys" [ngValue]="quantityList.id" >{{quantityList.text}}</option>
+                        </select>
+
+                    <p class="error-msg text-danger"  *ngIf="f.quantity.touched && f.quantity.invalid">
+                        <span  *ngIf="f.quantity.errors?.required">Quantity is required.</span>
+                    </p>
+                </div>
+            </div>
+            <div class="bottom-row">
+                <!-- <a href="sell-art-4.html" class="blue-button">NEXT</a> -->
+                <div  [ngClass]="{'pos-rel no-hover': uploadArtWorkLoader == true}">
+                    <div class="btn-loader2" *ngIf="uploadArtWorkLoader == true">Loading...</div>
+                    <button type="submit"  class="btn blue-btn" [disabled]="!uploadArtWorkform.valid" >NEXT </button>
+                </div>
+                <p>Having problems with the web app? <a href="contact" target="_blank">Contact Us</a></p>
+            </div>
+        </form>
+        </div>
+    </div>
+</div>
+<app-footer></app-footer>

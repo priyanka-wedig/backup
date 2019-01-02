@@ -1,0 +1,557 @@
+<section class="feedback-top-bar" id="myDiv">
+	<div class="container">
+		<div id="accordion">
+		  <div class="card">
+			<div class="card-header jq_card_header">
+			  <h5 class="mb-0">
+				<button class="btn btn-link">
+					Welcome to Skeuomo Beta Preview. Your feedback is very important to us! Please click the arrow for more info <i class="fa fa-angle-down"  (click)="openFeedBackFrm()"></i>
+				</button>
+			  </h5>
+			</div>
+			<div class="collapse jq_collapse">
+			  <div class="card-body">
+				<div class="feedback-content">
+					<p><strong>Welcome to Skeuomo Beta!</strong><br/>
+					Thank you for your interest and for being a strong voice and advocate for fine arts. Your feedback will help us build the best art platform in the market. A select group of artists have been invited to test and provide feedback on Skeuomo’s pre-launch site.</p>
+					<p><strong>What’s Involved?</strong><br/>
+					Sign up, create your profile, upload your artwork and give us your feedback. It’s that simple.</p>
+
+					<p><strong>What Kind of Feedback?</strong><br/>
+					We want to know your personal impression, if you encountered any bugs, errors, if you find the sign up process confusing and/or if you have any recommendations on what you would like to see improved or added.</p>
+
+					<p><strong>What Are The Perks?</strong><br/>
+					As an early adopter you’ll receive a full year membership for free and additional renewals at 50% off for life. You’ll also have bragging rights knowing you’ve helped us build Skeuomo into a central hub for the global Art Community for years to come.</p>
+
+					<p><strong>What Should Be Expected?</strong><br/>
+					During this early beta phase, you will have access to a subset of features. Over the course of your testing, you may encounter the occasional broken link or error message and you’ll also find new features and the interface or user experience enhanced gradually.  We have a gambit of features and robust set of tools that will enable you to do more with Skeuomo so please be patient as we work hard to finalize most features as quickly as possible.</p>
+
+					<p>Enjoy Skeuomo and we look forward to hearing from you.</p>
+
+					<p>Cesar Bohorquez Jr. Founder + CEO<br/>
+					Skeuomo Inc.</p>
+				</div>
+				<div class="feedback-form-section">
+				
+					<form class="feedback-form" [formGroup]="feedbackForm" (ngSubmit)="getFeedbackData()" novalidate>
+						<div class="form-group">
+								<label>Your Name:</label>
+								<input required type="text" name="name" class="form-control" formControlName="name">
+								<p class="error-msg text-danger" *ngIf="feedback.name.touched && feedback.name.invalid">
+									<span *ngIf="feedback.name.errors?.required">First name is required.</span>
+								</p>
+							</div>
+					
+						<div class="form-group">
+								<label>Your Email:</label>
+								<input type="text" required name="email" class="form-control" formControlName="email">
+								<p class="error-msg text-danger" *ngIf="feedback.email.touched && feedback.email.invalid">
+									<span *ngIf="feedback.email.errors?.required">Email is required.</span>
+									<span *ngIf="feedback.email.errors.email">Email must be a valid email address.</span>
+				
+								</p>
+							</div>
+						<div class="form-group">
+								<label>Title:</label>
+								<select class="form-control" formControlName="feedback_type" name="feedback_type">
+										<option value="comment">Comment</option>
+										<option value="report_a_bug">Report a bug</option>
+										<option value="suggestion">Suggestion</option>
+										<option value="review">Review</option>
+								</select>
+								<p class="error-msg text-danger" *ngIf="feedback.feedback_type.touched && feedback.feedback_type.invalid">
+									<span *ngIf="feedback.feedback_type.errors?.required">Feedback type is required.</span>
+								</p>
+							</div>
+				
+						<div class="form-group">
+								<label>Message:</label>
+								<textarea required rows="5" name="comment" class="form-control" formControlName="comment"></textarea>
+								<p class="error-msg text-danger" *ngIf="feedback.comment.touched && feedback.comment.invalid">
+									<span *ngIf="feedback.comment.errors?.required">Comment is required.</span>
+								</p>
+							</div>
+			
+
+						<div [ngClass]="{'pos-rel no-hover': FeedbackLoader == true}">
+								<div class="btn-loader2" *ngIf="FeedbackLoader == true">Loading...</div>
+								<button [disabled]="!feedbackForm.valid" class="btn blue-btn">Submit</button>
+							</div>
+					</form>
+				</div>
+			  </div>
+			</div>
+		  </div>
+		</div>
+	</div>
+</section>
+<header class="header">
+	<div class="container">
+		<nav class="navbar bootsnav">
+			<!-- Start Atribute Navigation -->
+			<div class="login-sec">
+				<ul *ngIf="!auth.isLoggedIn();">
+					<li><a href="#login-modal"  data-toggle="modal" data-target="#login-modal" class="log-in">Log In</a></li>
+					<li><a href="#register-modal"  data-toggle="modal" data-target="#register-modal" class="sign-up">Sign Up</a></li>
+				</ul>
+			</div>
+			<!-- End Atribute Navigation -->
+
+			<div class="attr-nav">
+				<ul>
+					<li class="search">
+						<a class="jq_search" style="cursor: pointer;" (click)="openSearchBox()"><i class="fa fa-search" ></i></a>
+					</li>
+					<li class="profile-menu dropdown-list" *ngIf="auth.isLoggedIn();" >
+						 
+						<a class="profile-icon">
+								<ng-container *ngIf="base64Image !=''">
+                                        <img src="{{base64Image}}" alt="Icon"></ng-container>
+                                        <ng-container *ngIf="base64Image==''">
+                                <img src="assets/img/avatar1.png" alt="Icon"></ng-container>
+							
+						</a>
+						<span class="profile-name-title">{{user_first_name |titlecase}}</span>
+						<ul class="dropdown-opt">
+							<li><a href="my-profile">My Profile</a></li>
+							<li><a href="messages">Messages</a></li>
+							<li><a>Statistics</a></li>
+							<li class="divider-top"><a href="javascript:void(0);" (click)="auth.logout()">Logout</a></li>
+						</ul>
+				</li>
+				</ul>
+			</div>
+			<!-- Start Header Navigation -->
+			<div class="navbar-header">
+				<a class="navbar-brand" routerLink=""><img src="../assets/img/logo.png" class="logo" alt=""></a>
+			</div>
+			<!-- End Header Navigation -->
+			<div class="nav-menu">
+				<div class="mobile-inner-header">
+					<div class="mobile-inner-header-icon mobile-inner-header-icon-out">
+						<span></span>
+						<span></span>
+						<span></span>
+					</div>
+				</div>
+				<div class="responsive-menu-bar">
+					<div class="collapse navbar-collapse">
+						  <ul class="nav navbar-nav">
+							<!-- <li class="active dropdown-list art-list">
+								<a href="#">Art Shop</a>
+							</li> -->
+							<li><a style='cursor: pointer;' (click)="nextstep()"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">Sell Art</a></li>
+							<li><a href="artgeo"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">ART GEO-MAP</a></li>
+							<li><a href="artists"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}">ARTISTS</a></li>
+							<li><a href="blog"  routerLinkActive="active"  [routerLinkActiveOptions]="{exact: true}" >BLOG</a></li>
+						  </ul>
+					</div>
+				</div>
+			</div>
+		</nav>
+	</div>
+</header>
+<div class="search-sec jq-search-sec">
+	<div class="container">
+		<div class="search-form">                
+			<!-- <a href="search-results.html"> -->
+				<input type="text" name="" class="form-control" placeholder="Search for art or artists" (keyup)="onKey($event)">
+				<span class="search-icon"><img src="assets/img/search.svg" /></span>
+			<!-- </a> -->
+		</div>
+		<div class="search-list-sec">
+			<div class="search-list-div">
+				<div class="search-heading">GENRES</div>
+				<ul class="search-list">
+					<li *ngFor="let geners of GenreList">
+						<a href="#">{{geners.genre}}</a></li>
+					<!-- <li><a href="#">Animation</a></li>
+					<li><a href="#">Architecture</a></li>
+					<li><a href="#">Art Deco</a></li>
+					<li><a href="#">Caricature</a></li>
+					<li><a href="#">Figurative</a></li>
+					<li><a href="#">Graffiti</a></li> -->
+					<ng-container *ngIf="gen_len > 7">
+							<li><a href="#" class="see-all">See All</a></li>
+					</ng-container>
+				</ul>
+				
+			</div>
+			<div class="search-list-div">
+				<div class="search-heading">SUBJECT</div>
+				<ul class="search-list">
+				
+						<li *ngFor="let subject of SubjectList">
+							
+								<a href="#">{{subject.subject}}</a></li>
+					<!-- <li><a href="#">African</a></li>
+					<li><a href="#">American</a></li>
+					<li><a href="#">Canadian</a></li>
+					<li><a href="#">Celtic</a></li>
+					<li><a href="#">Chinese</a></li>
+					<li><a href="#">Egyptian</a></li> -->
+				<ng-container *ngIf="sub_len>7">
+						<li><a href="#" class="see-all">See All</a></li>
+				</ng-container>
+				</ul>
+				
+			</div>
+			<div class="search-list-div">
+				<div class="search-heading">MEDIUM</div>
+				<ul class="search-list">
+					<li *ngFor="let medium of MediumList"><a href="#">{{medium.medium}}</a></li>
+					<!-- <li><a href="#">Calligraphy</a></li>
+					<li><a href="#">Ceramics</a></li>
+					<li><a href="#">Collage</a></li>
+					<li><a href="#">Craft</a></li>
+					<li><a href="#">Decorative Art</a></li>
+					<li><a href="#">Digital</a></li>
+					<li><a href="#" class="see-all">See All</a></li> -->
+					<ng-container *ngIf="medium_len>7">
+							<li><a href="#" class="see-all">See All</a></li>
+					</ng-container>
+				</ul>
+			</div>
+			<div class="search-list-div">
+				<div class="search-heading">MOOD</div>
+				<ul class="search-list">
+					<li *ngFor="let mood of MoodList"><a href="#">{{mood.mood}}</a></li>
+					<!-- <li><a href="#">Alone</a></li>
+					<li><a href="#">Angry</a></li>
+					<li><a href="#">Anxious</a></li>
+					<li><a href="#">Apathetic</a></li>
+					<li><a href="#">blah</a></li>
+					<li><a href="#">Calming</a></li> 
+					<li><a href="#" class="see-all">See All</a></li>-->
+					<ng-container *ngIf="mood_len>7">
+							<li><a href="#" class="see-all">See All</a></li>
+					</ng-container>
+				</ul>
+			</div>
+			<div class="search-list-div">
+				<div class="search-heading">PRICE RANGE</div>
+				<ul class="search-list">
+					<li><a href="#">Up to $500</a></li>
+					<li><a href="#">$500 - $1,000</a></li>
+					<li><a href="#">$1,000 - $2,000</a></li>
+					<li><a href="#">$2,000 - $5,000</a></li>
+					<li><a href="#">$5,000 - $10,000</a></li>
+					<li><a href="#">Over $10,000</a></li>
+				</ul>
+			</div>
+		</div>
+	</div>
+  </div>
+<div class="modal form-modal fade jq_login_modal"  id="login-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" (click)="modelPopup(0,1)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-logo">
+					<img src="assets/img/logo.png" />
+				</div>
+				<div class="modal-heading">Login to your <br/>Skeuomo account</div>
+				<form class="custom-form login-form" [formGroup]="loginform" novalidate  >
+					<div class="alert alert-danger fade in alert-dismissible" *ngIf="validationmessage">{{validationmessage}}<a href="#" class="close" data-dismiss="alert" aria-label="close" title="close">×</a></div>
+					<div class="form-group">
+						<input type="text" required formControlName="email" name="email" class="form-control" placeholder="Email address" >
+
+						<p class="error-msg text-danger" *ngIf="getLoginFields.email.touched && getLoginFields.email.invalid">
+							<span *ngIf="getLoginFields.email.errors?.required">Email is required</span>
+						</p>
+	
+						<!-- <p class="error-msg text-danger" *ngIf="loginformErrors.email">{{ loginformErrors.email }}
+						</p> -->
+						
+						
+					</div>
+					<div class="form-group">
+						<input type="Password" required formControlName="password" name="password" class="form-control" placeholder="Password" >
+						<p class="error-msg text-danger" *ngIf="getLoginFields.password.touched && getLoginFields.password.invalid">
+							<span *ngIf="getLoginFields.password.errors?.required">Password is required</span>
+						</p>
+					</div>
+					<div class="form-link forgot-link"><a href="javascript:void(0);" (click)="modelPopup(1,3)">Forgot password?</a></div>
+					<div  [ngClass]="{'pos-rel no-hover': LoginLoader == true}">
+						<div class="btn-loader2" *ngIf="LoginLoader == true">Loading...</div>
+						<button type="submit"   class="btn blue-btn" (click)="login()" [disabled]="!loginform.valid">LogIn</button>
+					</div>
+					
+					<!-- <a href="my-profile.html" class="btn blue-btn">LogIn</a> -->
+					<div class="form-link">Don't have an account? <a href="javascript:void(0);" (click)="modelPopup(1,2)">Sign Up here</a></div>
+				</form>
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<div class="modal form-modal fade"  id="register-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" (click)="modelPopup(0,2)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-logo">
+					<img src="assets/img/logo.png" />
+				</div>
+				<div class="modal-heading">{{registercontent1}} <br/>{{registercontent2}}</div>
+				
+				<form class="custom-form register-form"  [formGroup]="regform"  (ngSubmit)="register()"  novalidate ><!-- #regform="ngForm" (ngSubmit)="register(regform)" -->
+					<div class="alert alert-warning" *ngIf="validationmessage">{{validationmessage}}</div>
+					<ng-container *ngIf="registerpanel">
+					<div class="row">
+						<div class="col-sm-6">
+							<div class="form-group">
+								<input required type="text" name="firstname" class="form-control"  placeholder="First Name" formControlName="firstName"  >
+								<!-- <p class="error-msg text-danger" *ngIf="formErrors.firstName">{{ formErrors.firstName }}</p> -->
+								 <p class="error-msg text-danger"  *ngIf="f.firstName.touched && f.firstName.invalid">
+											<span  *ngIf="f.firstName.errors?.required">First name is required.</span>
+										</p>
+							</div>
+						</div>
+						<div class="col-sm-6">
+							<div class="form-group">
+								<input required type="text" name="lastname"  class="form-control" placeholder="Last Name" formControlName="lastName"    >
+								<!-- <p class="error-msg text-danger" *ngIf="formErrors.lastName">{{ formErrors.lastName }}</p> -->
+								<p class="error-msg text-danger"  *ngIf="f.lastName.touched && f.lastName.invalid">
+									<span  *ngIf="f.lastName.errors?.required">Last name is required.</span>
+								</p>
+							</div>
+						</div>
+					</div>
+					<div class="form-group">
+						<input type="text" required name="email"  class="form-control" placeholder="Email Address" formControlName="email"   >
+						<!-- <p class="error-msg text-danger" *ngIf="formErrors.email">{{ formErrors.email }}</p> -->
+						<p class="error-msg text-danger"  *ngIf="f.email.touched && f.email.invalid">
+							<span  *ngIf="f.email.errors?.required">Email is required.</span>
+							<span *ngIf="f.email.errors.email">Email must be a valid email address.</span>
+							
+						</p>
+					</div>
+					<div class="form-group">
+						<input type="Password" required name="password"  class="form-control"  placeholder="Password" formControlName="password"    >
+						<!-- <p class="error-msg text-danger" *ngIf="formErrors.password">{{ formErrors.password }}</p> -->
+						<p class="error-msg text-danger"  *ngIf="f.password.touched && f.password.invalid">
+								<span  *ngIf="f.password.errors?.required">Password is required.</span>
+								<span class="error-msg" *ngIf="!f.password.errors?.patterns && f.password.value != ''">Password must contain more than 8 characters, 1 upper case letter, and 1 special character.</span>
+							</p>
+					</div>
+					<div class="form-group">
+						<input 
+							type="Password" required name="confirmpassword"  class="form-control" placeholder="Confirm Password" formControlName="confirmpassword"    >
+						<!-- <p class="error-msg text-danger" *ngIf="formErrors.confirmpassword">{{ formErrors.confirmpassword }}</p> -->
+						<p class="error-msg text-danger"  *ngIf="f.confirmpassword.touched && f.confirmpassword.invalid">
+								<span  *ngIf="f.confirmpassword.errors?.required">Confirm password is required.</span>
+						</p>
+						<p class="error-msg text-danger"  *ngIf="(regform.hasError('notSame')) && (f.confirmpassword.touched && f.password.touched)">
+								Password and Confirm passwords do not match
+							</p>
+					</div>
+
+					<div class="form-group text-left">
+						<label class="custom-checkbox">
+							<input required class="with-gap" name="group1" type="checkbox"  formControlName="group1" />
+							<span class="lbl"></span>
+							<span> 
+								<a href="terms-conditions" target="_blank" >Privacy and Terms And
+									Conditions</a></span>
+									<p class="error-msg text-danger" *ngIf="f.group1.touched && f.group1.invalid">
+										<span *ngIf="f.group1.errors?.required">&nbsp; &nbsp;Privacy and Terms And
+											Conditions</span>
+									</p>
+								  
+						</label>
+					</div>
+					<!-- <div class="form-group">
+						<div class="signup-radio">
+							<label class="custom-radio">
+								<input formControlName="regUserType" class="with-gap" value="collector_members" name="regUserType" type="radio" [disabled]="true"/>
+								<span class="lbl"></span>
+								<span>I am a Collector / Members</span>
+							</label>
+						</div>
+						<div class="signup-radio">
+							<label class="custom-radio">
+								<input formControlName="regUserType" class="with-gap" name="regUserType" type="radio" value="artist" disabled/>
+								<span class="lbl"></span>
+								<span>I am an Artist</span>
+							</label>
+						</div>
+						<div class="signup-radio">
+							<label class="custom-radio">
+								<input formControlName="regUserType" class="with-gap" name="regUserType" type="radio" value="curator" disabled />
+								<span class="lbl"></span>
+								<span>I am a Curator</span>
+							</label>
+						</div>
+						<div class="signup-radio">
+							<label class="custom-radio">
+								<input formControlName="regUserType" class="with-gap" name="regUserType" type="radio" value="supplies_vendor" disabled/>
+								<span class="lbl"></span>
+								<span>I am an Art Supplies Vendor</span>
+							</label>
+						</div>
+					</div> -->
+					<!-- <p class="error-msg text-danger">{{validationmessage}}</p>
+					<p class="error-msg text-danger">{{validationmessage1}}</p> -->
+					<!-- {{regform.value | json}} sds -->
+					<div  [ngClass]="{'pos-rel no-hover': registerLoader == true}">
+						<div class="btn-loader2" *ngIf="registerLoader == true">Loading...</div>
+						<button type="submit"  class="btn blue-btn" [disabled]="!regform.valid" >Sign Up</button>
+					</div>
+					
+					<!-- <a href="javascript:void(0);" data-dismiss="modal" data-toggle="modal" data-target="#registerThanksModal" class="btn blue-btn">Sign Up</a> -->
+					<div class="form-link">Already have an account? <a href="javascript:void(0);" (click)="modelPopup(1,1)">Sign In here</a></div>
+					<div class="upgrade-link">(Note:-You can upgrade your account from profile section.)</div>
+				</ng-container>
+				
+				</form>
+				
+				<!-- <form>
+				<ng-container *ngIf="verificationpanel">
+
+					<div class="custom-form">	
+							
+						<div class="form-group">
+								<input
+									required
+									maxlength="6" 
+									ngModel
+									#verificationcode 
+									type="text" 
+									name="verification-code"  
+									class="form-control" 
+									placeholder="Enter Verfication code">
+									{{verificationcode.touched}}
+							 <p class="error-msg text-danger" *ngIf="validateformErrors.code">{{ validateformErrors.code }}</p> 
+									<p class="error-msg text-danger" *ngIf="verificationcode.touched && !verificationcode.valid">
+										<span *ngIf="verificationcode.errors?.required">Varification code is required.</span>
+										<span *ngIf="verificationcode.errors?.maxlength">Varification should be maximum 6 characters long.</span> 
+									</p>
+								</div>
+							<button type="submit"  (click)="verification(verificationcode.value)" class="btn blue-btn">Done</button>
+								
+						</div>
+					
+				</ng-container>
+				</form> -->
+
+			</div>
+		</div><!-- /.modal-content -->
+	</div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+<!-- <div class="modal fade form-modal" id="forgot-password-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+			<div class="modal-body">
+				<button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+				<div class="modal-logo">
+					<img src="../assets/img/logo.png" />
+				</div>
+				<div class="modal-heading">Forgot password</div>
+				<div class="modal-subheading">Enter your E-mail address and we’ll send you a link to get back on track.</div>
+				<form class="custom-form login-form">
+					<div class="form-group ">
+						<input type="text" name="" class="form-control m-bottom30" placeholder="Email address">
+					</div>
+					<button class="btn blue-btn m-bottom30">Request reset link</button>
+				</form>
+			</div>
+		</div>
+	</div>
+</div> -->
+<div class="modal form-modal fade" id="forget-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+		<div class="modal-dialog" role="document">
+			<div class="modal-content">
+				<div class="modal-body">
+					<button type="button" class="close" (click)="modelPopup(0,3)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+					<div class="modal-logo">
+						<img src="assets/img/logo.png" />
+					</div>
+					<div class="modal-heading">Forgot password</div>
+					<div class="modal-subheading">Enter your E-mail address and we’ll send you a email to get back on track.</div>
+				
+					<form class="custom-form forget-form" [formGroup]="forgetform" novalidate  >
+						<div class="form-group ">
+							<input type="text" required name="email" class="form-control m-bottom30" formControlName="email" placeholder="Email address" >
+						
+								<p class="error-msg text-danger" *ngIf="fgp.email.touched && fgp.email.invalid">Email address is required.
+								</p>
+						</div>
+						<div  [ngClass]="{'pos-rel no-hover': forgotPassLoader == true}">
+							<div class="btn-loader2" *ngIf="forgotPassLoader == true">Loading...</div>
+							<button class="btn blue-btn m-bottom30" [disabled]="!forgetform.valid" (click)="forgetpassword()">Request verification code </button>
+						</div>
+						
+					</form>
+				
+				</div>
+			</div><!-- /.modal-content -->
+		</div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+	<div class="modal form-modal fade jq_confirmpassword"  id="confirmpassword-modal" tabindex="-1" role="dialog" aria-labelledby="gridSystemModalLabel">
+			<div class="modal-dialog" role="document">
+				<div class="modal-content">
+					<div class="modal-body">
+						<button type="button" class="close" (click)="modelPopup(0,3)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<div class="modal-logo">
+							<img src="assets/img/logo.png" />
+						</div>
+						<div class="modal-heading">Reset password</div>
+						<div class="modal-subheading">Plrase Enter your new password.</div>
+						<form class="custom-form confirmpassword-form" [formGroup]="confirmpasswordform" novalidate  >
+								<div class="alert alert-warning" *ngIf="validationmessage">{{validationmessage}}</div>
+							<div class="form-group">
+								<input type="Password" required name="password"  class="form-control"  placeholder="Password" formControlName="password"    >
+								<!-- <p class="error-msg text-danger" *ngIf="formErrors.password">{{ formErrors.password }}</p> -->
+								<p class="error-msg text-danger"  *ngIf="resetpass.password.touched && resetpass.password.invalid">
+										<span  *ngIf="resetpass.password.errors?.required">Password is required.</span>
+									<span class="error-msg" *ngIf="!resetpass.password.errors?.patterns && resetpass.password.value != ''">Password must contain more than 8 characters, 1 upper case letter, and 1 special character.</span>
+									</p>
+							</div>
+							<div class="form-group">
+								<input 
+									type="Password" required name="confirmpassword"  class="form-control" placeholder="Confirm Password" formControlName="confirmpassword"    >
+								<!-- <p class="error-msg text-danger" *ngIf="formErrors.confirmpassword">{{ formErrors.confirmpassword }}</p> -->
+								<p class="error-msg text-danger"  *ngIf="resetpass.confirmpassword.touched && resetpass.confirmpassword.invalid">
+										<span  *ngIf="resetpass.confirmpassword.errors?.required">Confirm password is required.</span>
+								</p>
+								<p class="error-msg text-danger"  *ngIf="(confirmpasswordform.hasError('notSame')) && (resetpass.confirmpassword.touched && resetpass.password.touched)">
+										Password and Confirm passwords do not match
+									</p>
+							</div>
+									
+									<div  [ngClass]="{'pos-rel no-hover': confirmPassLoader == true}">
+										<div class="btn-loader2" *ngIf="confirmPassLoader == true">Loading...</div>
+										<button class="btn blue-btn m-bottom30" [disabled]="!confirmpasswordform.valid" (click)="confirmnewpassword()">Done </button>
+									</div>
+								
+						</form>
+					</div>
+				</div><!-- /.modal-content -->
+			</div><!-- /.modal-dialog -->
+		</div><!-- /.modal -->
+<div id="registerThanksModal" class="modal post-modal fade" role="dialog">
+	<div class="modal-dialog">
+		<div class="post-modal-table">
+			<div class="post-modal-cell">
+				<div class="img-icon">
+					<img src="../assets/img/check-done.png" alt="Icon">
+				</div>
+				<div class="mid-text">
+					Thank You for registering <br/>You will get an email once admin approves your profile.  
+				</div>
+				<br/>
+				<div class="block"><button style='font-size: 12px;
+					font-weight: bold;
+					font-style: normal;
+					font-stretch: normal;
+					line-height: normal;
+					letter-spacing: 0.5px;
+					text-align: center;
+					color: #ffffff;
+					display: inline-block;
+					background: none;
+    border: none;' class="text-link" data-dismiss="modal" >Close</button></div>
+			</div>
+		</div>
+	</div>
+</div>

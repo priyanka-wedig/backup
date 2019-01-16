@@ -1,27 +1,31 @@
-import { Component, OnInit } from '@angular/core';
-import { FormBuilder,FormGroup,Validators } from "@angular/forms";
+import { Component, OnInit } from "@angular/core";
+import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { RegisterService } from "../../Shared/services/signup/register.service";
 import { LoginService } from "../../Shared/services/login/login.service";
-import { ToastrService } from 'ngx-toastr';
-import  {Router, ActivatedRoute} from '@angular/router';
-import {AuthService} from '../../Shared/services/authService/auth.service';
+import { ToastrService } from "ngx-toastr";
+import { Router, ActivatedRoute } from "@angular/router";
+import { AuthService } from "../../Shared/services/authService/auth.service";
 import { SellartService } from "../../Shared/services/sellart/sellart.service";
-import { ArtistService } from 'src/app/Shared/services/artist/artist.service';
-import { UploadartService } from 'src/app/Arts/services/uploadart/uploadart.service';
-import { FeedbackService } from '../services/feedback/feedback.service';
-
+import { ArtistService } from "src/app/Shared/services/artist/artist.service";
+import { UploadartService } from "src/app/Arts/services/uploadart/uploadart.service";
+import { FeedbackService } from "../services/feedback/feedback.service";
+import {
+  ChallengeParameters,
+  CognitoCallback,
+  LoggedInCallback
+} from "../../Shared/services/congnito.service";
 declare var $: any;
 
 @Component({
-  selector: 'app-header',
-  templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  selector: "app-header",
+  templateUrl: "./header.component.html",
+  styleUrls: ["./header.component.css"]
 })
 export class HeaderComponent implements OnInit {
   loginform: FormGroup;
-  feedbackForm:FormGroup;
-  LoginLoader: boolean= false;
-  FeedbackLoader:boolean=false;
+  feedbackForm: FormGroup;
+  LoginLoader: boolean = false;
+  FeedbackLoader: boolean = false;
   public regform: FormGroup;
   public forgetform: FormGroup;
   public confirmpasswordform: FormGroup;
@@ -31,105 +35,100 @@ export class HeaderComponent implements OnInit {
   registerLoader: boolean = false;
   validationmessage;
   validationmessage1;
-  token :any;
-  base64Image: any="";
+  token: any;
+  base64Image: any = "";
   SubjectList: any;
   GenreList: any;
   MediumList: any;
   MoodList: any;
   forgotPassLoader: boolean = false;
-  confirmPassLoader:boolean = false;
-  user_first_name:any;
-  constructor(public auth:AuthService,public form: FormBuilder,public signup: RegisterService,public Login: LoginService,public toastr: ToastrService
-    ,public route:ActivatedRoute,public Uploadart:UploadartService,public feedbackService:FeedbackService,
-    private router:Router,public sellart:SellartService,public artist:ArtistService
-    ) {
-    
-    }
-    sub_len:number=0;
-    gen_len:number=0;
-    medium_len:number=0;
-    mood_len:number=0;
-    verification_code="";
-    code="";
+  confirmPassLoader: boolean = false;
+  user_first_name: any;
+  constructor(
+    public auth: AuthService,
+    public form: FormBuilder,
+    public signup: RegisterService,
+    public Login: LoginService,
+    public toastr: ToastrService,
+    public route: ActivatedRoute,
+    public Uploadart: UploadartService,
+    public feedbackService: FeedbackService,
+    private router: Router,
+    public sellart: SellartService,
+    public artist: ArtistService
+  ) {}
+  sub_len: number = 0;
+  gen_len: number = 0;
+  medium_len: number = 0;
+  mood_len: number = 0;
+  verification_code = "";
+  code = "";
   ngOnInit() {
-
-   
-
-
     this.route.queryParams.subscribe(params => {
-
-      this.verification_code = params['verification_code']
-     
+      this.verification_code = params["verification_code"];
     });
 
-    if(this.verification_code!=undefined){
-      const verify_url="users/token";
-      this.signup.verifyToken(verify_url,this.verification_code).subscribe((responsse: any) => {
-      
-         if (responsse.success == true) {
-            $('.jq_confirmpassword').modal('show');
+    if (this.verification_code != undefined) {
+      const verify_url = "users/token";
+      this.signup
+        .verifyToken(verify_url, this.verification_code)
+        .subscribe((responsse: any) => {
+          if (responsse.success == true) {
+            $(".jq_confirmpassword").modal("show");
             $(".jq_confirmpassword").addClass("in");
-            $(".jq_confirmpassword").css("display",'block');
-           
+            $(".jq_confirmpassword").css("display", "block");
           } else {
-           
-            $('.jq_confirmpassword').modal('hide');
+            $(".jq_confirmpassword").modal("hide");
             $(".jq_confirmpassword").removeClass("in");
-            $(".jq_confirmpassword").css("display",'none');
-           // let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
-              setTimeout(()=>{
-                this.router.navigate(['/']);
-              });
-        }
+            $(".jq_confirmpassword").css("display", "none");
+            // let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
+            setTimeout(() => {
+              this.router.navigate(["/"]);
+            });
+          }
         });
-      
     }
-  
-     
 
     this.buildForm();
-    const url = 'users/get';
-    this.user_id=localStorage.getItem('user_id');
+    const url = "users/get";
+    this.user_id = localStorage.getItem("user_id");
     this.artist.getBuyerData(url, this.user_id).subscribe((responsse: any) => {
-   console.log(responsse);
+      console.log(responsse);
       if (responsse.success == true) {
-       
-       this.base64Image =responsse.result.image_url;
-       this.user_first_name =responsse.result.firstname; 
-      
+        this.base64Image = responsse.result.image_url;
+        this.user_first_name = responsse.result.firstname;
       } else {
+      }
+    });
+    const subject_url = "arts/get-art-subjects";
 
+    this.Uploadart.getArtSubjectData(subject_url).subscribe(
+      (responsse: any) => {
+        if (responsse.success == true) {
+          this.SubjectList = responsse.result;
+          this.sub_len = <number>this.SubjectList.length;
+        }
       }
-    });
-    const subject_url="arts/get-art-subjects";
-   
-    this.Uploadart.getArtSubjectData(subject_url).subscribe((responsse: any) => {
-     
-      if (responsse.success == true) {
-        this.SubjectList = responsse.result  
-        this.sub_len=<number>this.SubjectList.length;
-      }
-    });
-    const genre_url="arts/get-art-genres";
+    );
+    const genre_url = "arts/get-art-genres";
     this.Uploadart.getArtGenreData(genre_url).subscribe((responsse: any) => {
       if (responsse.success == true) {
-        this.GenreList = responsse.result   
-        this.gen_len=<number>this.GenreList.length;   
+        this.GenreList = responsse.result;
+        this.gen_len = <number>this.GenreList.length;
       }
     });
-    const medium_url="arts/get-art-mediums";
+    const medium_url = "arts/get-art-mediums";
     this.Uploadart.getArtMediumData(medium_url).subscribe((responsse: any) => {
       if (responsse.success == true) {
-        this.MediumList = responsse.result  
-        this.medium_len=<number>this.MediumList.length;    
+        this.MediumList = responsse.result;
+        this.medium_len = <number>this.MediumList.length;
       }
     });
-    const mood_url="arts/get-art-moods";
+    const mood_url = "arts/get-art-moods";
     this.Uploadart.getArtMoodData(mood_url).subscribe((responsse: any) => {
       if (responsse.success == true) {
-        this.MoodList = responsse.result  
-        this.mood_len=<number>this.MoodList.length;    
+        this.MoodList = responsse.result;
+        this.mood_len = <number>this.MoodList.length;
       }
     });
   }
@@ -141,14 +140,11 @@ export class HeaderComponent implements OnInit {
     confirmpassword: ""
   };
   public formError = {
-            
-    email: "Email is already exist",
-    
+    email: "Email is already exist"
   };
   public loginformErrors = {
     email: "",
-    password: "",
-    
+    password: ""
   };
   modalMode = {
     open: 1,
@@ -157,7 +153,8 @@ export class HeaderComponent implements OnInit {
   modalType = {
     login: 1,
     register: 2,
-    forget: 3
+    forget: 3,
+    changePassword:4
   };
   public forgetformErrors = {
     email: "",
@@ -169,18 +166,76 @@ export class HeaderComponent implements OnInit {
 
   public confirmationformErrors = {
     password: "",
-    confirmpassword: ""
+    confirmpassword: "",
+    verificationcode: "",
   };
   public feedbackformErrors = {
     name: "",
     email: "",
     feedback_type: "",
-    comment: "",
+    comment: ""
   };
 
+  
+  get getLoginFields() {
+    return this.loginform.controls;
+  }
+  /*******************************************AWS Login and Forgotpassword process starts here********************************************************/
+  public validateformErrors = {
+    code: ""
+  };
+ 
+  forgetpassword() {
+    this.forgotPassLoader = true;
+    this.signup.markFormGroupTouched(this.forgetform);
+    if (this.forgetform.valid) {
+      this.signup.forgotPassword(this.forgetform.value.email).then(
+        responsse => {
+          this.forgotPassLoader = false;
+          
+          $("#forget-modal").modal("hide");
+          this.initForgotPassFrm();
+          localStorage.setItem("forgotPassEmail",this.forgetform.value.email)
+          this.toastr.success(" A verification code has been sent to the email address associated with your account");
+          $("#confirmpassword-modal").modal("show");
+          
+        },
+        err => {
+          this.forgotPassLoader = false;
+          this.validationmessage = "Your email address is not valid.";
+          this.toastr.error(this.validationmessage);
+        }
+      );
+    } else {
+      this.forgotPassLoader = false;
+      this.forgetformErrors = this.signup.validateForm(
+        this.forgetform,
+        this.forgetformErrors,
+        false
+      );
+    }
+  }
+  otpLoader:boolean=false;
+  verification(code) {
+    this.otpLoader = true;
+    this.validationmessage = "";
+    this.signup.verification(code).then(
+      result => {
+        this.otpLoader = false;
+        this.registercontent1 = "Verify your";
+        this.registercontent2 = "email";
+        $("#register-modal").modal("hide");
+        setTimeout(() => {
+          $("#registerThanksModal").modal("show");
+        }, 1500);
+      },
+      err => {
+        this.validationmessage = "Enter valid verifcation code."; //err.data.message;
+      }
+    );
+  }
 
   public register() {
-
     this.registerLoader = true;
     this.validationmessage = ""; //err.data.message;
     this.validationmessage1 = "";
@@ -193,8 +248,9 @@ export class HeaderComponent implements OnInit {
       const password = this.regform.value.password;
       const email = this.regform.value.email;
       const confirmPass = this.regform.value.confirmpassword;
-      const url ='users/signup';
-      this.signup.register(first_name,Last_name,password,email,confirmPass,url).subscribe((responsse:any)=>{
+      const url = "users/signup";
+
+      /* this.signup.register(first_name,Last_name,password,email,confirmPass,url).subscribe((responsse:any)=>{
        
 				if(responsse.success == true){
           this.registerLoader = false;
@@ -213,9 +269,29 @@ export class HeaderComponent implements OnInit {
           this.registerLoader = false;
           this.toastr.error(responsse.msg);
 				}
-			});
-    } else {
+      }); */
 
+      /**** AWS Code Starts here**/
+
+      this.signup
+        .awsRegister(first_name, Last_name, password, email, confirmPass, url)
+        .then(
+          (responsse: any) => {
+            this.registerLoader = false;
+            this.registerpanel = false;
+            this.regform.reset();
+            let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+            this.router.navigate([returnUrl || "/register-success"]);
+            $("#register-modal").modal("hide");
+          },
+          err => {
+            this.validationmessage = err.data.message;
+            this.registerLoader = false;
+            this.toastr.error(err.data.message);
+          }
+        );
+      /**** AWS Code Ends here here**/
+    } else {
       this.formErrors = this.signup.validateForm(
         this.regform,
         this.formErrors,
@@ -223,53 +299,120 @@ export class HeaderComponent implements OnInit {
       );
     }
   }
-  get getLoginFields(){
-    return this.loginform.controls;
-  }
+
+/****************Local Data Post API**************/
+
+  updateUserProfile = "users/update-user-first-profile";
+
+  /****************Local Data Post API Ends here**************/
+  searching_result: any = "";
   login() {
-    this.validationmessage='';
+    this.validationmessage = "";
     this.LoginLoader = true;
     this.signup.markFormGroupTouched(this.loginform);
     if (this.loginform.valid) {
       const email = this.loginform.value.email;
       const password = this.loginform.value.password;
-      const url ='users/login';
-      this.Login.login(email,password,url).subscribe((res:any)=>{
-    console.log(res);
+      const url = "users/login";
+
+      this.Login.login(email, password, url, this).then(
+        result => {
+          var res: any = result;
+          if (res.success) {
+            var res = res.result[0];
+            localStorage.setItem("email", res.email);
+            localStorage.setItem("user_id", res.id);
+            localStorage.setItem("role", res.user_role_type);
+            this.LoginLoader = false;
+            this.toastr.success("You have successfully logged in!");
+
+            // let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
+            setTimeout(() => {
+              $("#login-modal").modal("hide");
+            }, 1000);
+
+            if (res.u_type == 1) {
+              // this.router.navigate(['/thanku-registration']);
+              // $('html, body').animate({
+              //   scrollTop: $("#myDiv").offset().top
+              // }, 1000);
+              window.location.href = "/thanku-registration";
+            } else if (
+              this.searching_result != "" &&
+              this.searching_result != "undefined" &&
+              this.searching_result != undefined &&
+              this.searching_result != "null" &&
+              this.searching_result != null
+            ) {
+              /*   console.log(this.searching_result); */
+              window.location.href = "/" + this.searching_result;
+              //this.router.navigate(['/'+this.searching_result]);
+              // $('html, body').animate({
+              //   scrollTop: $("#myDiv").offset().top
+              // }, 1000);
+            } else {
+              // this.router.navigate(['/']);
+              // $('html, body').animate({
+              //   scrollTop: $("#myDiv").offset().top
+              // }, 1000);
+              window.location.href = "/";
+            }
+          } else {
+            this.validationmessage = res.msg;
+            this.LoginLoader = false;
+            this.toastr.error(res.msg);
+          }
+        },
+        error => {
+          this.LoginLoader = false;
+          setTimeout(() => {
+            $("#login-modal").modal("hide");
+          }, 1000);
+          this.toastr.error("User does not exits!", "Login Failed!");
+        }
+      );
+
+      /*****************************OLD Login Backup********************************/
+
+      /*  this.Login.login(email,password,url).subscribe((res:any)=>{
+          console.log(res);
 				if(res.success == true){
+          
           localStorage.setItem('email',email);
           localStorage.setItem('user_id',res.result.user_id);
           localStorage.setItem('role',res.result.role);
           localStorage.setItem('token',res.result.access_token);
           let token = localStorage.getItem('token');
-          
           this.LoginLoader = false;
+          
           //this.toastr.success(res.msg);
-             
           // let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
+
           $("#login-modal").modal("hide");
           if(res.result.u_type==1){
-          
+            
             this.router.navigate(['/thanku-registration']);
+            
             $('html, body').animate({
-              scrollTop: $("#myDiv").offset().top
-      }, 1000);
+            scrollTop: $("#myDiv").offset().top
+            }, 1000);
+          
           }else{
           
           this.router.navigate(['/']);
           $('html, body').animate({
-            scrollTop: $("#myDiv").offset().top
-    }, 1000);
+          scrollTop: $("#myDiv").offset().top
+          }, 1000);
+        
         }
-         
-                
 				}else{
           this.validationmessage=res.msg;
           this.LoginLoader = false;
           this.toastr.error(res.msg);
 				}
-			});
- 
+      }); */
+
+      /*****************************OLD Login Backup Ends here********************************/
     } else {
       this.LoginLoader = false;
       this.loginformErrors = this.signup.validateForm(
@@ -277,9 +420,9 @@ export class HeaderComponent implements OnInit {
         this.loginformErrors,
         false
       );
-      
     }
   }
+ 
   private checkPasswords(group: FormGroup) {
     // here we have the 'passwords' group
     let pass = group.controls.password.value;
@@ -287,21 +430,26 @@ export class HeaderComponent implements OnInit {
 
     return pass === confirmPass ? null : { notSame: true };
   }
+  initForgotPassFrm(){
+    this.forgetform = this.form.group({
+      email: ["", [Validators.required, Validators.email]]
+    });
+  }
   public buildForm() {
     this.regform = this.form.group(
       {
-        firstName: [
-          "",
-          [Validators.required]
-        ],
-        lastName: [
-          "",
-          [Validators.required]
-        ],
+        firstName: ["", [Validators.required]],
+        lastName: ["", [Validators.required]],
         email: ["", [Validators.required, Validators.email]],
-        password: ["", Validators.compose([Validators.required,Validators.pattern(/^(?=.*[A-Z])(?=.*[!@[#\$%\^{},\*])(?=.{9,})/)])],
+        password: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^(?=.*[A-Z])(?=.*[!@[#\$%\^{},\*])(?=.{9,})/)
+          ])
+        ],
         confirmpassword: ["", [Validators.required]],
-        group1:["", [Validators.required]],
+        group1: ["", [Validators.required]],
         regUserType: ["collector_members", [Validators.required]]
       },
       { validator: this.checkPasswords }
@@ -310,19 +458,13 @@ export class HeaderComponent implements OnInit {
       email: ["", [Validators.required, Validators.email]],
       password: ["", [Validators.required]]
     });
-    this.forgetform = this.form.group({
-      email: ["", [Validators.required, Validators.email]]
-    });
-    this.confirmpasswordform = this.form.group({
-    
-      password: ["", Validators.compose([Validators.required,Validators.pattern(/^(?=.*[A-Z])(?=.*[!@[#\$%\^{},\*])(?=.{9,})/)])],
-      confirmpassword: ["", [Validators.required]]
-    },{ validator: this.checkPasswords });
-    this.feedbackForm=this.form.group({
-      name: ["",[Validators.required]],
+   this.initForgotPassFrm();
+   this.initChangePasswordFrm();
+    this.feedbackForm = this.form.group({
+      name: ["", [Validators.required]],
       email: ["", [Validators.required, Validators.email]],
       feedback_type: ["", [Validators.required]],
-      comment: ["", [Validators.required]],
+      comment: ["", [Validators.required]]
     });
   }
   get f() {
@@ -331,49 +473,49 @@ export class HeaderComponent implements OnInit {
   get feedback() {
     return this.feedbackForm.controls;
   }
-   
-//feedback Form Validation
-public getFeedbackData() {
-  this.FeedbackLoader = true;
-    this.validationmessage = ""; 
-   
+
+  //feedback Form Validation
+  public getFeedbackData() {
+    this.FeedbackLoader = true;
+    this.validationmessage = "";
+
     this.feedbackService.markFormGroupTouched(this.feedbackForm);
 
     if (this.feedbackForm.valid) {
-
-      const feedback_url ='users/feedback';
-      this.feedbackService.saveFeedback(this.feedbackForm.value,feedback_url).subscribe((responsse:any)=>{
-       
-				if(responsse.success == true){
-          this.FeedbackLoader = false;
-          this.feedbackForm.reset();
-          this.toastr.success(responsse.msg);
-          $(".jq_collapse").slideToggle("slow");
-          this.router.navigate(['/']);
-          $('html, body').animate({
-            scrollTop: $("#myDiv").offset().top
-    }, 1000);
-        
-				}else{
-          this.validationmessage = responsse.msg;
-          this.FeedbackLoader = false;
-          this.toastr.error(responsse.msg);
-				}
-			});
+      const feedback_url = "users/feedback";
+      this.feedbackService
+        .saveFeedback(this.feedbackForm.value, feedback_url)
+        .subscribe((responsse: any) => {
+          if (responsse.success == true) {
+            this.FeedbackLoader = false;
+            this.feedbackForm.reset();
+            this.toastr.success(responsse.msg);
+            $(".jq_collapse").slideToggle("slow");
+            this.router.navigate(["/"]);
+            $("html, body").animate(
+              {
+                scrollTop: $("#myDiv").offset().top
+              },
+              1000
+            );
+          } else {
+            this.validationmessage = responsse.msg;
+            this.FeedbackLoader = false;
+            this.toastr.error(responsse.msg);
+          }
+        });
     } else {
-
       this.feedbackformErrors = this.feedbackService.validateForm(
         this.feedbackForm,
         this.feedbackformErrors,
         false
       );
     }
-
-}
+  }
   modelPopup(mode, type) {
     this.validationmessage = ""; //err.data.message;
     this.validationmessage1 = "";
-   
+
     if (mode == this.modalMode.open && type == this.modalType.login) {
       $("#login-modal").modal("show");
       $("#forget-modal").modal("hide");
@@ -381,18 +523,27 @@ public getFeedbackData() {
     } else if (mode == this.modalMode.close && type == this.modalType.login) {
       $("#login-modal").modal("hide");
     }
+    if (mode == this.modalMode.open && type == this.modalType.changePassword) {
+      $("#confirmpassword-modal").modal("show");
+    } else if (mode == this.modalMode.close && type == this.modalType.changePassword) {
+      $("#confirmpassword-modal").modal("hide");
+    }
     if (mode == this.modalMode.open && type == this.modalType.forget) {
       $("#login-modal").modal("hide");
       $("#forget-modal").modal("show");
+      this.initForgotPassFrm();
     } else if (mode == this.modalMode.close && type == this.modalType.forget) {
       $("#forget-modal").modal("hide");
+      this.initForgotPassFrm();
     }
     if (mode == this.modalMode.open && type == this.modalType.register) {
-     
       $("#login-modal").modal("hide");
       $("#forget-modal").modal("hide");
       $("#register-modal").modal("show");
-    } else if (mode == this.modalMode.close && type == this.modalType.register) {
+    } else if (
+      mode == this.modalMode.close &&
+      type == this.modalType.register
+    ) {
       $("#register-modal").modal("hide");
     }
   }
@@ -400,42 +551,40 @@ public getFeedbackData() {
     $(".jq_card_header").toggleClass("active");
     $(".jq_collapse").slideToggle("slow");
   }
-  openSearchBox(){
+  openSearchBox() {
     $(".jq-search-sec").toggleClass("open");
   }
 
-  user_id ='';
-  
-  nextstep(){
-    let role = localStorage.getItem('role');
-  
-    if(role=="member"){
-      
-      let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
-      this.router.navigate([returnUrl||'/sellart']);
-    }else if(role=="artist"){
-    
-      const art_work_url ='arts/get-user-arts';
-      this.user_id =localStorage.getItem('user_id');
-      this.sellart.getArtData(this.user_id,art_work_url).subscribe((responsse: any) => {
-        //console.log(responsse);
-        if (responsse.success == true) {
-            
-          
-            if(responsse.result.length>0){
-              let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
-              this.router.navigate([returnUrl||'/uploaded-arts']);
-            }
-        }else{
-          let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
-          this.router.navigate([returnUrl||'/upload-art']);
-        }
-      });
-    }else{
-    
-      let returnUrl =this.route.snapshot.queryParamMap.get('returnUrl');
-      this.router.navigate([returnUrl||'/sellart']);
+  user_id = "";
 
+  nextstep() {
+    let role = localStorage.getItem("role");
+
+    if (role == "member") {
+      let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+      this.router.navigate([returnUrl || "/sellart"]);
+    } else if (role == "artist") {
+      const art_work_url = "arts/get-user-arts";
+      this.user_id = localStorage.getItem("user_id");
+      this.sellart
+        .getArtData(this.user_id, art_work_url)
+        .subscribe((responsse: any) => {
+          //console.log(responsse);
+          if (responsse.success == true) {
+            if (responsse.result.length > 0) {
+              let returnUrl = this.route.snapshot.queryParamMap.get(
+                "returnUrl"
+              );
+              this.router.navigate([returnUrl || "/uploaded-arts"]);
+            }
+          } else {
+            let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+            this.router.navigate([returnUrl || "/upload-art"]);
+          }
+        });
+    } else {
+      let returnUrl = this.route.snapshot.queryParamMap.get("returnUrl");
+      this.router.navigate([returnUrl || "/sellart"]);
     }
   }
 
@@ -445,25 +594,28 @@ public getFeedbackData() {
   get resetpass() {
     return this.confirmpasswordform.controls;
   }
+  /*  
+  OLD Fogotpass Backup
   forgetpassword() {
     this.forgotPassLoader = true;
     this.signup.markFormGroupTouched(this.forgetform);
     if (this.forgetform.valid) {
-      const url ='users/forgot-password';
-      this.signup.forgetpassword(url,this.forgetform.value.email).subscribe((responsse:any)=>{
-       console.log(responsse);
-				if(responsse.success == true){
-          this.forgotPassLoader = false;
-          $("#forget-modal").modal("hide");
-          this.toastr.success(responsse.authMessage);
-         // $("#confirmpassword-modal").modal("show");
-				}else{
-          this.forgotPassLoader = false;
-         this.validationmessage = responsse.authMessage;
-         this.toastr.error(responsse.authMessage);
-				}
-			});
-    
+      const url = "users/forgot-password";
+      this.signup
+        .forgetpassword(url, this.forgetform.value.email)
+        .subscribe((responsse: any) => {
+          console.log(responsse);
+          if (responsse.success == true) {
+            this.forgotPassLoader = false;
+            $("#forget-modal").modal("hide");
+            this.toastr.success(responsse.authMessage);
+            // $("#confirmpassword-modal").modal("show");
+          } else {
+            this.forgotPassLoader = false;
+            this.validationmessage = responsse.authMessage;
+            this.toastr.error(responsse.authMessage);
+          }
+        });
     } else {
       this.forgotPassLoader = false;
       this.forgetformErrors = this.signup.validateForm(
@@ -472,48 +624,102 @@ public getFeedbackData() {
         false
       );
     }
+  } */
+  initChangePasswordFrm(){
+    this.confirmpasswordform = this.form.group(
+      {
+        password: [
+          "",
+          Validators.compose([
+            Validators.required,
+            Validators.pattern(/^(?=.*[A-Z])(?=.*[!@[#\$%\^{},\*])(?=.{9,})/)
+          ])
+        ],
+        verificationcode: [
+          "",
+          [Validators.required]
+        ],
+        confirmpassword: ["", [Validators.required]]
+      },
+      { validator: this.checkPasswords }
+    );
   }
-
   confirmnewpassword() {
     this.confirmPassLoader=true;
     this.signup.markFormGroupTouched(this.confirmpasswordform);
-    this.confirmPassLoader=false;
+   
     if (this.confirmpasswordform.valid) {
-      const url="users/reset-password";
+      this.signup
+        .inputVerificationCode(
+          this.confirmpasswordform.value.verificationcode,
+          this.confirmpasswordform.value.password
+        )
+        .then(
+          result => {
+            this.confirmPassLoader=false;
+            $("#confirmpassword-modal").modal("hide");
+            this.toastr.success("Your password has been updated successfully..!");
+          /*   $("#forgetpasswordThanksModal").modal("show"); */
+            this.initChangePasswordFrm();
+            setTimeout(() => {
+              this.router.navigate(["/"]);
+            });
+            console.log(result);
+          },
+          err => {
+            this.confirmPassLoader=false;
+            this.toastr.error(err.data);
+            console.log(err);
+          }
+        );
+    } else {
+      this.confirmPassLoader=false;
+      this.confirmationformErrors = this.signup.validateForm(
+        this.confirmpasswordform,
+        this.confirmationformErrors,
+        false
+      );
+    }
+  }
+
+ /*  confirmnewpassword() {
+    this.confirmPassLoader = true;
+    this.signup.markFormGroupTouched(this.confirmpasswordform);
+    this.confirmPassLoader = false;
+    if (this.confirmpasswordform.valid) {
+      const url = "users/reset-password";
       this.route.queryParams.subscribe(params => {
-        this.code = params['verification_code']
-       
+        this.code = params["verification_code"];
       });
-      this.signup.resetPassword(url,this.confirmpasswordform.value, this.code).subscribe((responsse:any)=>{
-       
-				if(responsse.success == true){
-          this.confirmPassLoader = false;
-          $("#confirmpassword-modal").modal("hide");
-          this.toastr.success(responsse.authMessage);
-          setTimeout(()=>{
-            this.router.navigate(['/']);
-          });
-				}else{
-          this.confirmPassLoader = false;
-         this.validationmessage =responsse.msg;
-         this.toastr.success(responsse.authMessage);
-				}
-      });
-      
+      this.signup
+        .resetPassword(url, this.confirmpasswordform.value, this.code)
+        .subscribe((responsse: any) => {
+          if (responsse.success == true) {
+            this.confirmPassLoader = false;
+            $("#confirmpassword-modal").modal("hide");
+            this.toastr.success(responsse.authMessage);
+            setTimeout(() => {
+              this.router.navigate(["/"]);
+            });
+          } else {
+            this.confirmPassLoader = false;
+            this.validationmessage = responsse.msg;
+            this.toastr.success(responsse.authMessage);
+          }
+        });
     } else {
       this.confirmationformErrors = this.signup.validateForm(
         this.confirmpasswordform,
         this.confirmationformErrors,
         false
       );
-    
     }
-  }
-  onKey(e){
-    if(e.keyCode==13){
-     let search_value=e.target.value;  
-      localStorage.setItem("filter_value",search_value);
-      this.router.navigate(['/searching-results']);
-   }
+  } */
+  onKey(e) {
+    if (e.keyCode == 13) {
+      let search_value = e.target.value;
+      localStorage.setItem("filter_value", search_value);
+      this.router.navigate(["/searching-results"]);
+    }
   }
 }

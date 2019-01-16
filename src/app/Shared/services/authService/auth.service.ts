@@ -16,13 +16,12 @@ export class AuthService {
   }
   isLoggedIn(){
     let token = localStorage.getItem('token');
-    // console.log(token);
     if(!token){
    
       return false;
     }else{
-    
-      return this.helper.isTokenExpired(token);
+      return true;
+      //return this.helper.isTokenExpired(token);
     }
   }
   getCurrentUser(){

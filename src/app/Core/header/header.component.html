@@ -95,6 +95,7 @@
 					<li><a href="#register-modal"  data-toggle="modal" data-target="#register-modal" class="sign-up">Sign Up</a></li>
 				</ul>
 			</div>
+			<!-- {{auth.isLoggedIn()}} -->
 			<!-- End Atribute Navigation -->
 
 			<div class="attr-nav">
@@ -468,11 +469,9 @@
 					</div>
 					<div class="modal-heading">Forgot password</div>
 					<div class="modal-subheading">Enter your E-mail address and we’ll send you a email to get back on track.</div>
-				
 					<form class="custom-form forget-form" [formGroup]="forgetform" novalidate  >
 						<div class="form-group ">
 							<input type="text" required name="email" class="form-control m-bottom30" formControlName="email" placeholder="Email address" >
-						
 								<p class="error-msg text-danger" *ngIf="fgp.email.touched && fgp.email.invalid">Email address is required.
 								</p>
 						</div>
@@ -480,7 +479,6 @@
 							<div class="btn-loader2" *ngIf="forgotPassLoader == true">Loading...</div>
 							<button class="btn blue-btn m-bottom30" [disabled]="!forgetform.valid" (click)="forgetpassword()">Request verification code </button>
 						</div>
-						
 					</form>
 				
 				</div>
@@ -491,17 +489,45 @@
 			<div class="modal-dialog" role="document">
 				<div class="modal-content">
 					<div class="modal-body">
-						<button type="button" class="close" (click)="modelPopup(0,3)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-						<div class="modal-logo">
-							<img src="assets/img/logo.png" />
-						</div>
+						<button type="button" class="close" (click)="modelPopup(0,4)" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+						<div class="modal-logo"><img src="assets/img/logo.png" /></div>
 						<div class="modal-heading">Reset password</div>
-						<div class="modal-subheading">Plrase Enter your new password.</div>
+						<form class="custom-form confirmpassword-form" [formGroup]="confirmpasswordform" novalidate  >
+							<div class="form-group ">
+									<input type="text" required name="verificationcode" class="form-control m-bottom30" formControlName="verificationcode" placeholder="Enter verification code" >
+									<div class="error-msg text-danger"  *ngIf="resetpass.verificationcode.touched && resetpass.verificationcode.invalid">
+											<span  *ngIf="resetpass.verificationcode.errors?.required">Verification code is required.</span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<input type="password" required name="password" class="form-control m-bottom30" formControlName="password" placeholder="Enter new password" >
+									<div class="error-msg text-danger"  *ngIf="resetpass.password.touched && resetpass.password.invalid">
+											<span  *ngIf="resetpass.password.errors?.required">Password is required.</span>
+										<span class="error-msg" *ngIf="!resetpass.password.errors?.patterns && resetpass.password.value != ''">Password must contain more than 8 characters, 1 upper case letter, and 1 special character.</span>
+									</div>
+								</div>
+								<div class="form-group ">
+									<input type="password" required name="confirmpassword" class="form-control m-bottom30" formControlName="confirmpassword" placeholder="Enter confirm password" >
+									<div class="error-msg text-danger"  *ngIf="resetpass.confirmpassword.touched && resetpass.confirmpassword.invalid">
+											<span  *ngIf="resetpass.confirmpassword.errors?.required">Confirm password is required.</span>
+									</div>
+									<div class="error-msg text-danger"  *ngIf="(confirmpasswordform.hasError('notSame')) && (resetpass.confirmpassword.touched && resetpass.password.touched)">
+											Password and Confirm passwords do not match
+									</div>
+								</div>
+								
+								<div  [ngClass]="{'pos-rel no-hover': confirmPassLoader == true}">
+									<div class="btn-loader2" *ngIf="confirmPassLoader == true">Loading...</div>
+									<button class="btn blue-btn m-bottom30" [disabled]="!confirmpasswordform.valid" (click)="confirmnewpassword()">Done </button>
+								</div>
+								
+					</form>
+						<!-- <div class="modal-subheading">Plrase Enter your new password.</div>
 						<form class="custom-form confirmpassword-form" [formGroup]="confirmpasswordform" novalidate  >
 								<div class="alert alert-warning" *ngIf="validationmessage">{{validationmessage}}</div>
 							<div class="form-group">
 								<input type="Password" required name="password"  class="form-control"  placeholder="Password" formControlName="password"    >
-								<!-- <p class="error-msg text-danger" *ngIf="formErrors.password">{{ formErrors.password }}</p> -->
+								
 								<p class="error-msg text-danger"  *ngIf="resetpass.password.touched && resetpass.password.invalid">
 										<span  *ngIf="resetpass.password.errors?.required">Password is required.</span>
 									<span class="error-msg" *ngIf="!resetpass.password.errors?.patterns && resetpass.password.value != ''">Password must contain more than 8 characters, 1 upper case letter, and 1 special character.</span>
@@ -510,7 +536,6 @@
 							<div class="form-group">
 								<input 
 									type="Password" required name="confirmpassword"  class="form-control" placeholder="Confirm Password" formControlName="confirmpassword"    >
-								<!-- <p class="error-msg text-danger" *ngIf="formErrors.confirmpassword">{{ formErrors.confirmpassword }}</p> -->
 								<p class="error-msg text-danger"  *ngIf="resetpass.confirmpassword.touched && resetpass.confirmpassword.invalid">
 										<span  *ngIf="resetpass.confirmpassword.errors?.required">Confirm password is required.</span>
 								</p>
@@ -524,11 +549,11 @@
 										<button class="btn blue-btn m-bottom30" [disabled]="!confirmpasswordform.valid" (click)="confirmnewpassword()">Done </button>
 									</div>
 								
-						</form>
+						</form> -->
 					</div>
 				</div><!-- /.modal-content -->
 			</div><!-- /.modal-dialog -->
-		</div><!-- /.modal -->
+	</div><!-- /.modal -->
 <div id="registerThanksModal" class="modal post-modal fade" role="dialog">
 	<div class="modal-dialog">
 		<div class="post-modal-table">

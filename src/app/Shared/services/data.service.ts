@@ -13,9 +13,9 @@ import { promise } from 'protractor';
 
 @Injectable()
 export class DataService {
- //private apiUrl='http://192.168.1.131:3000/api/v1/';
+ private apiUrl='http://192.168.1.131:3000/api/v1/';
  // private apiUrl='http://52.34.138.228:3000/api/v1/';
- private apiUrl='http://skeuomodev.indyo.com/api/api/v1/';
+ //private apiUrl='http://skeuomodev.indyo.com/api/api/v1/';
   constructor(private http: HttpClient) { }
 
   getAll(url,body,headerData={},methode="POST") {
@@ -42,10 +42,10 @@ export class DataService {
       .map(response => response)
       .catch(this.handleError);
   }
-  createData(url,resource) {
+  createData(url,resource,header={}) {
     const createUrl=this.apiUrl+url;
     console.log(resource);
-    return this.http.put(createUrl,resource)//JSON.stringify(resource)
+    return this.http.put(createUrl,resource,header)//JSON.stringify(resource)
       .map(response => response)
       .catch(this.handleError);
   }

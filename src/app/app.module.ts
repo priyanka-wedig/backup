@@ -1,3 +1,5 @@
+import { CognitoUtil } from './Shared/services/congnito.service';
+import { AwsUtil } from './Shared/services/aws.service';
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { RouterModule,Routes } from '@angular/router';
@@ -60,9 +62,7 @@ import {NgxPaginationModule} from 'ngx-pagination';
 import {ShareButtonsModule} from 'ngx-sharebuttons';
 import { MetaModule, MetaLoader, MetaStaticLoader, PageTitlePositioning } from '@ngx-meta/core';
 
-/* import {AwsUtil} from "./Shared/services/aws.service";
-import {S3Service} from "./Shared/services/s3.service";
-import {CognitoUtil} from "./Shared/services/cognito.service"; */
+
 export function tokenGetter() {
   return localStorage.getItem('token');
 }
@@ -111,7 +111,6 @@ const routes:Routes=[
   {path:'searching-results',component:SearchresultComponent},
   {path:'art-details/:id',component:ArtdetailsComponent},
   {path:'artisan-galleria',component:ArtisanGalleriaComponent},
-  
 ];
 
 @NgModule({
@@ -148,8 +147,6 @@ const routes:Routes=[
     FilterPipe,
     ArtdetailsComponent,
     ArtisanGalleriaComponent,
-    
-    
   ],
   imports: [
     BrowserModule,
@@ -179,8 +176,7 @@ const routes:Routes=[
       }
     })
   ],
-  /* providers: [RegisterService,DataService,LoginService,AuthService,ArtistService,SellartService,UploadartService,AuthGuard,ArtistProfileService,SearchingService,FeedbackService,ArtdetailsService,AwsUtil,S3Service,CognitoUtil], */
-  providers: [RegisterService,DataService,LoginService,AuthService,ArtistService,SellartService,UploadartService,AuthGuard,ArtistProfileService,SearchingService,FeedbackService,ArtdetailsService,HomeService],
+  providers: [RegisterService,DataService,LoginService,AuthService,ArtistService,SellartService,UploadartService,AuthGuard,ArtistProfileService,SearchingService,FeedbackService,ArtdetailsService,HomeService,AwsUtil,CognitoUtil],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

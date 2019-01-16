@@ -1,0 +1,17 @@
+/* You can add global styles to this file, and also import other style files */
+    @import "~assets/css/flaticon.css";
+     @import "~assets/css/jquery.fancybox.min.css";
+	 @import "~assets/css/font-awesome.css";
+	 @import "~assets/css/owl.carousel.min.css";
+	 @import "~assets/css/owl.theme.default.min.css";
+	 @import "~assets/css/bootstrap.css";
+	 @import "~assets/css/bootstrap-theme.css";
+	 @import "~assets/css/bootsnav.css";
+	 @import "./assets/css/style.css";
+	 @import "./assets/css/style-1.css";
+	  @import "./assets/css/style-2.css";
+	 @import "~assets/css/responsive.css";
+
+	 @import '~ngx-toastr/toastr.css';
+
+

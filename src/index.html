@@ -1,33 +1,101 @@
 <!doctype html>
 <html lang="en">
 <head>
-        <script>
-                if (global === undefined) {
-                  var global = window;
-                }
-              </script>
   <meta charset="utf-8">
   <title>Skeuomo</title>
   <base href="/">
 
   <!-- <meta name="viewport" content="width=device-width, initial-scale=1"> -->
+  <meta property="fb:app_id" content="786020625064453" />
   <meta name="viewport" content="width=device-width, initial-scale=1 , maximum-scale=1.0, user-scalable=0">
   <meta property="og:title" content="Art 1">
   <meta property="og:image" content='http://skeuomodev.indyo.com/api/data/pexels-photo-935785.jpeg'>
-  <meta property="og:description" content="Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed maximus diam libero, cursus commodo arcu commodo non. Proin a nulla nunc. Nunc vulputate, ipsum eu laoreet tempus, erat dui varius sapien, iaculis maximus tortor orci eget ligula. Etiam in augue eros. Praesent eu orci dapibus, commodo est nec, sodales est. Mauris quam mauris, pharetra eget pellentesque at, vehicula viverra metus. Phasellus tincidunt sem blandit interdum euismod. Sed efficitur commodo nulla nec hendrerit. Quisque sed erat sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.">
+  <meta property="og:description" content="Sed maximus diam libero, cursus commodo arcu commodo non. Proin a nulla nunc. Nunc vulputate, ipsum eu laoreet tempus, erat dui varius sapien, iaculis maximus tortor orci eget ligula. Etiam in augue eros. Praesent eu orci dapibus, commodo est nec, sodales est. Mauris quam mauris, pharetra eget pellentesque at, vehicula viverra metus. Phasellus tincidunt sem blandit interdum euismod. Sed efficitur commodo nulla nec hendrerit. Quisque sed erat sem. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.">
   <meta property="og:url" content="http://skeuomodev.indyo.com/art-details/1">
   <meta name="twitter:card" content="summary_large_image">
+  
+
  <link rel="icon" type="image/x-icon" href="assets/img/title_icon.ico">
   <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
   <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
   <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
   <script async src="https://static.addtoany.com/menu/page.js"></script>
- <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-594b5ef010b5b2c3"></script>
+ 
+ <script type="text/javascript" src="//s7.addthis.com/js/300/addthis_widget.js#pubid=ra-5c2f5151513e8baf"></script>
+ <script>
+    window.fbAsyncInit = function() {
+      FB.init({
+        appId            : '786020625064453',
+        autoLogAppEvents : true,
+        xfbml            : true,
+        version          : 'v2.10'
+      });
+      FB.AppEvents.logPageView();
+    };
+   
+    (function(d, s, id){
+       var js, fjs = d.getElementsByTagName(s)[0];
+       if (d.getElementById(id)) {return;}
+       js = d.createElement(s); js.id = id;
+       js.src = "//connect.facebook.net/en_US/sdk.js";
+       fjs.parentNode.insertBefore(js, fjs);
+     }(document, 'script', 'facebook-jssdk'));
+  </script>
 </head>
 <body>
   <app-root></app-root>
 </body>
+<script>
+  if (global === undefined) {
+    var global = window;
+  }
+</script>
+<script>
+    function twitt() {
+        var twitterShare = document.querySelector('[data-js="twitter-share"]');
+        twitterShare.onclick = function (e) {
+            e.preventDefault();
+            var twitterWindow = window.open('https://twitter.com/intent/tweet?text=Hello%20world&url=https://googel.com', 'twitter-popup', 'height=350,width=600');
+            if (twitterWindow.focus) { twitterWindow.focus(); }
+            return false;
+        }
+    }
+</script>
+<script>
+   function shareOverrideOGMeta(){
+        overrideLink = $("#facebookShareBtn").attr("fburl");
+        overrideTitle = $("#facebookShareBtn").attr("fbtitle");
+        overrideDescription = $("#facebookShareBtn").attr("fbdes");
+        overrideImage = $("#facebookShareBtn").attr("fbimage");
+        FB.ui({
+            method: 'share_open_graph',
+            action_type: 'og.likes',
+            action_properties: JSON.stringify({
+                object: {
+                    'og:url': overrideLink,
+                    'og:title': overrideTitle,
+                    'og:description': overrideDescription,
+                    'og:image': overrideImage
+                }
+            })
+        },
+        function (response) {
+        // Action after response
+        });
+    }
+    function shareOriginal(){        
+	FB.ui({
+		method: 'share',
+		href: window.location.href
+	},
+	function (response) {
+	// Action after response
+	});
+	
+	return false;
+}
 
+    </script>
 <script type="text/javascript">
     
   $('.featured-slider').owlCarousel({
